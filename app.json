@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "felixpro",
-    "slug": "felixpro",
+    "name": "Sphinx Travel",
+    "slug": "sphinx-travel",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,6 +29,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "91940389-a185-4e20-88ee-1971f325f393"
+      }
+    },
+    "owner": "sphinxtravel"
   }
 }

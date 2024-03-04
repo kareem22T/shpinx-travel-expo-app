@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -24,14 +24,18 @@ import {
   RateDetail,
   CommentItem,
 } from '@components';
+import * as SecureStore from 'expo-secure-store';
 import {TabView, TabBar} from 'react-native-tab-view';
 import styles from './styles';
 import {UserData, ReviewData, TourData, PackageData} from '@data';
 import {useTranslation} from 'react-i18next';
+import { url } from '../../apis/a-MainVariables';
 
-export default function TourDetail({navigation}) {
+export default function TourDetail({navigation, route}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
+  
+  const Tour = route.params.tour
 
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -69,9 +73,9 @@ export default function TourDetail({navigation}) {
   const renderScene = ({route, jumpTo}) => {
     switch (route.key) {
       case 'information':
-        return <InformationTab jumpTo={jumpTo} navigation={navigation} />;
+        return <InformationTab jumpTo={jumpTo} navigation={navigation} tour={Tour}/>;
       case 'tour':
-        return <TourTab jumpTo={jumpTo} navigation={navigation} />;
+        return <TourTab jumpTo={jumpTo} navigation={navigation} tour={Tour}/>;
       case 'package':
         return <PackageTab jumpTo={jumpTo} navigation={navigation} />;
       case 'review':
@@ -100,26 +104,12 @@ export default function TourDetail({navigation}) {
       <SafeAreaView
         style={BaseStyle.safeAreaView}
         edges={['right', 'left', 'bottom']}>
-        <ProfileDescription
-          image={userData.image}
-          name={userData.name}
-          subName={userData.major}
-          description={userData.address}
-          style={{marginTop: 25, paddingHorizontal: 20}}
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 20,
-          }}>
-          <Tag primary style={{width: 80}}>
-            + {t('follow')}
-          </Tag>
-          <View style={{flex: 1, paddingLeft: 10, paddingVertical: 5}}>
-            <ProfilePerformance data={userData.performance} type="small" />
+          <View style={{padding: 20}}>
+            <Text style={{fontSize: 18, fontWeight: 600, marginBottom: 10}}>
+              {route.params.tour.titles[0].title}
+              </Text>
+            <Text>{route.params.tour.intros[0].intro}</Text>
           </View>
-        </View>
         <View style={{flex: 1}}>
           <TabView
             lazy
@@ -135,7 +125,7 @@ export default function TourDetail({navigation}) {
             ]}>
             <View>
               <Text caption1 semibold>
-                16 {t('days')}
+                {route.params.tour.duration} {t('days')}
               </Text>
               <Text title3 primaryColor semibold>
                 $2,199.00
@@ -161,7 +151,7 @@ export default function TourDetail({navigation}) {
  * @class PreviewTab
  * @extends {Component}
  */
-function InformationTab({navigation}) {
+function InformationTab({navigation, tour}) {
   const [tours] = useState(TourData);
   const [dayTour] = useState([
     {
@@ -197,13 +187,14 @@ function InformationTab({navigation}) {
         'Other hygienic practices that the new hotel — which handles, among other guests, patients seeking medical treatment at the Texas Medical Center — include removing nonessential items like decorative pillows and magazines',
     },
   ]);
+  
   const [information] = useState([
-    {title: 'Location', detail: 'Luxembourg'},
-    {title: 'Duration', detail: '16 Days'},
-    {title: 'Departure', detail: '08:00'},
+    {title: 'Location', detail: tour.locations[0].location},
+    {title: 'Duration', detail: tour.duration},
+    {title: 'Departure', detail: tour.depature},
     {title: 'Price per Participant', detail: '2,199.00 USD'},
-    {title: 'Group size', detail: '3 - 20 people'},
-    {title: 'Transportation', detail: 'Boat, Bicycle, Car'},
+    {title: 'Group size', detail: tour.min_participant + ' - ' + tour.max_participant + ' people'},
+    {title: 'Transportation', detail: tour.transportations[0].transportation},
   ]);
   const {colors} = useTheme();
   return (
@@ -242,41 +233,48 @@ function InformationTab({navigation}) {
           </TouchableOpacity>
         </View>
         <View style={styles.contentImageGird}>
-          <View style={{flex: 4, marginRight: 10}}>
-            <Card image={Images.trip7}>
-              <Text headline semibold whiteColor>
-                Dallas
-              </Text>
-            </Card>
-          </View>
-          <View style={{flex: 6}}>
-            <View style={{flex: 1}}>
-              <Card image={Images.trip3}>
-                <Text headline semibold whiteColor>
-                  Warsaw
-                </Text>
+          {
+            tour.gallery[0] && (
+            <View style={{flex: 4, marginRight: 10}}>
+              <Card image={{uri: url + tour.gallery[0].path}}>
               </Card>
             </View>
+            )
+          }
+          <View style={{flex: 6}}>
+            {
+              tour.gallery[1] && (
+              <View style={{flex: 1}}>
+                <Card image={{uri: url + tour.gallery[1].path}}>
+                </Card>
+              </View>
+              )
+            }
             <View
               style={{
                 flex: 1,
                 flexDirection: 'row',
                 marginTop: 10,
               }}>
-              <View style={{flex: 6, marginRight: 10}}>
-                <Card image={Images.trip4}>
-                  <Text headline semibold whiteColor>
-                    Yokohama
-                  </Text>
-                </Card>
-              </View>
-              <View style={{flex: 4}}>
-                <Card image={Images.trip6}>
-                  <Text headline semibold whiteColor>
-                    10+
-                  </Text>
-                </Card>
-              </View>
+                {
+                  tour.gallery[2] && (
+                    <View style={{flex: 6, marginRight: 10}}>
+                      <Card image={{uri: url + tour.gallery[2].path}}>
+                      </Card>
+                    </View>
+                  )
+                }
+                {
+                  tour.gallery[3] && (
+                    <View style={{flex: 6}}>
+                      <Card image={{uri: url + tour.gallery[3].path}}>
+                      <Text headline semibold whiteColor>
+                        {tour.gallery.length > 4 ? (tour.gallery.length - 4) + " +" : ''}
+                      </Text>
+                      </Card>
+                    </View>
+                  )
+                }
             </View>
           </View>
         </View>
@@ -296,14 +294,14 @@ function InformationTab({navigation}) {
           contentContainerStyle={{paddingLeft: 5, paddingRight: 20}}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          data={dayTour}
+          data={tour.days}
           keyExtractor={(item, index) => item.id}
           renderItem={({item}) => (
             <TourDay
-              image={item.image}
-              day={item.day}
-              title={item.title}
-              description={item.description}
+              image={{uri: url + '/' + item.thumbnail}}
+              day={"Day " }
+              title={item.titles[0].title}
+              description={item.descriptions[0].description}
               style={{marginLeft: 15}}
               onPress={() => {}}
             />
@@ -315,18 +313,7 @@ function InformationTab({navigation}) {
           Includes
         </Text>
         <Text body2>
-          - Donec sollicitudin molestie malesuada. Quisque velit nisi, pretium
-          ut lacinia in, elementum id enim.
-        </Text>
-        <Text body2 style={{marginTop: 5}}>
-          - Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text body2 style={{marginTop: 5}}>
-          - Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Donec
-          rutrum congue leo eget malesuada.
+          {tour.includes[0].include}
         </Text>
       </View>
       <View style={{paddingHorizontal: 20, marginTop: 20}}>
@@ -334,18 +321,7 @@ function InformationTab({navigation}) {
           Excludes
         </Text>
         <Text body2>
-          - Donec sollicitudin molestie malesuada. Quisque velit nisi, pretium
-          ut lacinia in, elementum id enim.
-        </Text>
-        <Text body2 style={{marginTop: 5}}>
-          - Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text body2 style={{marginTop: 5}}>
-          - Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Donec
-          rutrum congue leo eget malesuada.
+          {tour.excludes[0].exclude}
         </Text>
       </View>
       <View>
@@ -361,7 +337,7 @@ function InformationTab({navigation}) {
         <Text body2 style={{marginBottom: 10, marginLeft: 20}}>
           Let find out what most interesting things
         </Text>
-        <FlatList
+        {/* <FlatList
           contentContainerStyle={{paddingLeft: 5, paddingRight: 20}}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -387,7 +363,7 @@ function InformationTab({navigation}) {
               services={item.services}
             />
           )}
-        />
+        /> */}
       </View>
     </ScrollView>
   );
@@ -400,10 +376,10 @@ function InformationTab({navigation}) {
  * @class PreviewTab
  * @extends {Component}
  */
-function TourTab({navigation}) {
+function TourTab({navigation, tour}) {
   return (
     <ScrollView>
-      <View style={{paddingHorizontal: 20, marginTop: 20}}>
+      <View style={{paddingHorizontal: 20, marginTop: 20, paddingBottom: 10}}>
         <View
           style={{
             flexDirection: 'row',
@@ -417,119 +393,70 @@ function TourTab({navigation}) {
           </Text>
         </View>
         <View style={styles.contentImageGird}>
-          <View style={{flex: 4, marginRight: 10}}>
-            <Card image={Images.trip7}>
-              <Text headline semibold whiteColor>
-                Dallas
-              </Text>
-            </Card>
-          </View>
-          <View style={{flex: 6}}>
-            <View style={{flex: 1}}>
-              <Card image={Images.trip3}>
-                <Text headline semibold whiteColor>
-                  Warsaw
-                </Text>
+          {
+            tour.gallery[0] && (
+            <View style={{flex: 4, marginRight: 10}}>
+              <Card image={{uri: url + tour.gallery[0].path}}>
               </Card>
             </View>
+            )
+          }
+          <View style={{flex: 6}}>
+            {
+              tour.gallery[1] && (
+              <View style={{flex: 1}}>
+                <Card image={{uri: url + tour.gallery[1].path}}>
+                </Card>
+              </View>
+              )
+            }
             <View
               style={{
                 flex: 1,
                 flexDirection: 'row',
                 marginTop: 10,
               }}>
-              <View style={{flex: 6, marginRight: 10}}>
-                <Card image={Images.trip4}>
-                  <Text headline semibold whiteColor>
-                    Yokohama
-                  </Text>
-                </Card>
-              </View>
-              <View style={{flex: 4}}>
-                <Card image={Images.trip6}>
-                  <Text headline semibold whiteColor>
-                    10+
-                  </Text>
-                </Card>
-              </View>
+                {
+                  tour.gallery[2] && (
+                    <View style={{flex: 6, marginRight: 10}}>
+                      <Card image={{uri: url + tour.gallery[2].path}}>
+                      </Card>
+                    </View>
+                  )
+                }
+                {
+                  tour.gallery[3] && (
+                    <View style={{flex: 6}}>
+                      <Card image={{uri: url + tour.gallery[3].path}}>
+                      <Text headline semibold whiteColor>
+                        {tour.gallery.length > 4 ? (tour.gallery.length - 4) + " +" : ''}
+                      </Text>
+                      </Card>
+                    </View>
+                  )
+                }
             </View>
           </View>
         </View>
-        <Text headline semibold style={{marginTop: 20}}>
-          Day 1: London - Somme - Paris
-        </Text>
-        <Image
-          source={Images.room2}
-          style={{height: 120, width: '100%', marginTop: 10}}
-        />
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text headline semibold style={{marginTop: 20}}>
-          Day 2: Paris - Burgundy - Swiss Alps
-        </Text>
-        <Image
-          source={Images.room3}
-          style={{height: 120, width: '100%', marginTop: 10}}
-        />
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text headline semibold style={{marginTop: 20}}>
-          Day 3: Swiss Alps - Strasbourg - Heidel…
-        </Text>
-        <Image
-          source={Images.room4}
-          style={{height: 120, width: '100%', marginTop: 10}}
-        />
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
-        <Text body2 style={{marginTop: 10}}>
-          Other hygienic practices that the new hotel — which handles, among
-          other guests, patients seeking medical treatment at the Texas Medical
-          Center — include removing nonessential items like decorative pillows
-          and magazines
-        </Text>
+        {
+          tour.days.map((day, index) => (  
+            <>
+            
+              <Text headline semibold style={{marginTop: 20}}>
+                Day {index + 1}: {day.titles[0].title}
+              </Text>
+              <Image
+                source={{uri: url + '/' + day.thumbnail}}
+                style={{height: 120, width: '100%', marginTop: 10}}
+              />
+              <Text body2 style={{marginTop: 10}}>
+                {day.descriptions[0].description}
+              </Text>
+
+              </>
+            ))
+            
+        }
       </View>
     </ScrollView>
   );

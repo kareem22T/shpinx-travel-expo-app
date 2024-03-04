@@ -5,6 +5,7 @@ import {BaseColor, useTheme} from '@config';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
+import { url } from '../../apis/a-MainVariables';
 export default function HotelItem(props) {
   const {t} = useTranslation();
   const {colors} = useTheme();
@@ -34,7 +35,7 @@ export default function HotelItem(props) {
     return (
       <View style={style}>
         <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
-          <Image source={image} style={styles.blockImage} />
+          <Image source={ {uri: image }} style={styles.blockImage} />
         </TouchableOpacity>
         <View style={{paddingHorizontal: 20}}>
           <Text title2 semibold style={{marginTop: 5}} numberOfLines={1}>
@@ -101,13 +102,14 @@ export default function HotelItem(props) {
             keyExtractor={(item, index) => item.id}
             renderItem={({item, index}) => (
               <View style={styles.serviceItemBlock} key={'block' + index}>
-                <Icon name={item.icon} size={16} color={colors.accent} />
+                {/* <Icon name={item.icon} size={16} color={colors.accent} /> */}
+                <Image source={{uri: url + item.icon_path}} style={{width: 30, height: 30, resizeMode: "contain"}} />
                 <Text
                   overline
                   grayColor
                   style={{marginTop: 4}}
                   numberOfLines={1}>
-                  {item.name}
+                  {item.names[0].name}
                 </Text>
               </View>
             )}

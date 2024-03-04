@@ -5,7 +5,10 @@ import {Header, SafeAreaView, Icon, TourItem, FilterSort} from '@components';
 import styles from './styles';
 import * as Utils from '@utils';
 import {TourData} from '@data';
+import {getTours} from '../../apis/tour'
 import {useTranslation} from 'react-i18next';
+import * as SecureStore from 'expo-secure-store';
+import { url } from '../../apis/a-MainVariables';
 
 export default function Tour({navigation}) {
   const {t} = useTranslation();
@@ -27,7 +30,11 @@ export default function Tour({navigation}) {
 
   const [refreshing] = useState(false);
   const [modeView, setModeView] = useState('block');
-  const [tours] = useState(TourData);
+  const [tours, setTours] = useState(null);
+
+  getTours().then(res => {
+    setTours(res.data);
+  })
 
   const onChangeSort = () => {};
 
@@ -111,22 +118,17 @@ export default function Tour({navigation}) {
               renderItem={({item, index}) => (
                 <TourItem
                   block
-                  image={item.image}
-                  name={item.name}
-                  location={item.location}
-                  travelTime={item.location}
-                  startTime={item.startTime}
-                  price={item.price}
-                  rate={item.rate}
-                  rateCount={item.rateCount}
-                  numReviews={item.numReviews}
-                  author={item.author}
-                  services={item.services}
+                  image={{uri: url + item.gallery[0].path}}
+                  title={item.titles[0].title}
+                  price={"1400$"}
+                  rate={4}
+                  rateCount={"100 of 120"}
+                  intro={item.intros[0].intro}
                   style={{
                     marginBottom: 10,
                   }}
                   onPress={() => {
-                    navigation.navigate('TourDetail');
+                    navigation.navigate('TourDetail', {tour: item})
                   }}
                   onPressBookNow={() => {
                     navigation.navigate('PreviewBooking');
@@ -204,7 +206,7 @@ export default function Tour({navigation}) {
                     marginLeft: 15,
                   }}
                   onPress={() => {
-                    navigation.navigate('TourDetail');
+                    navigation.navigate('TourDetail', {tourDetials: item})
                   }}
                   onPressBookNow={() => {
                     navigation.navigate('PreviewBooking');

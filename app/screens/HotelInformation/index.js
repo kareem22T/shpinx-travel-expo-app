@@ -17,8 +17,9 @@ import {
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 import {UserData} from '@data';
+import { url } from '../../apis/a-MainVariables';
 
-export default function HotelInformation({navigation}) {
+export default function HotelInformation({navigation, route}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
 
@@ -66,48 +67,67 @@ export default function HotelInformation({navigation}) {
             }}
             activeOpacity={0.9}>
             <View style={styles.galleryLineTop}>
-              <View style={{flex: 1, paddingRight: 5}}>
-                <Image
-                  source={Images.room1}
-                  style={{width: '100%', height: '100%'}}
-                />
-              </View>
-              <View style={{flex: 1}}>
-                <Image
-                  source={Images.room2}
-                  style={{width: '100%', height: '100%'}}
-                />
-              </View>
+              {
+                route.params.room.gallery[0] && (
+                <View style={{flex: 1, paddingRight: 5}}>
+                  <Image
+                    source={{uri: url + route.params.room.gallery[0].path}}
+                    style={{width: '100%', height: '100%'}}
+                  />
+                </View>
+                )
+              }
+              {
+                route.params.room.gallery[1] && (
+                  <View style={{flex: 1}}>
+                  <Image
+                    source={{uri: url + route.params.room.gallery[1].path}}
+                    style={{width: '100%', height: '100%'}}
+                  />
+                </View>
+                )
+              }
             </View>
             <View style={styles.galleryLineBottom}>
-              <View style={{flex: 1, paddingRight: 5}}>
-                <Image
-                  source={Images.room3}
-                  style={{width: '100%', height: '100%'}}
-                />
-              </View>
-              <View style={{flex: 1, paddingRight: 5}}>
-                <Image
-                  source={Images.room4}
-                  style={{width: '100%', height: '100%'}}
-                />
-              </View>
-              <View style={{flex: 1}}>
-                <Image
-                  source={Images.room5}
-                  style={{width: '100%', height: '100%'}}
-                />
-                <Text
-                  headline
-                  whiteColor
-                  style={{
-                    position: 'absolute',
-                    right: 10,
-                    bottom: 10,
-                  }}>
-                  5+
-                </Text>
-              </View>
+            {
+                route.params.room.gallery[2] && (
+                <View style={{flex: 1, paddingRight: 5}}>
+                  <Image
+                    source={{uri: url + route.params.room.gallery[2].path}}
+                    style={{width: '100%', height: '100%'}}
+                  />
+                </View>
+                )
+              }
+              {
+                route.params.room.gallery[3] && (
+                <View style={{flex: 1, paddingRight: 5}}>
+                  <Image
+                    source={{uri: url + route.params.room.gallery[3].path}}
+                    style={{width: '100%', height: '100%'}}
+                  />
+                </View>
+                )
+              }
+              {
+                route.params.room.gallery[4] && (
+                <View style={{flex: 1}}>
+                  <Image
+                    source={{uri: url + route.params.room.gallery[4].path}}
+                    style={{width: '100%', height: '100%'}}
+                  />
+                  <Text
+                    headline
+                    whiteColor
+                    style={{
+                      position: 'absolute',
+                      right: 10,
+                      bottom: 10,
+                    }}>
+                    {route.params.room.gallery.length}+</Text>
+                </View>
+                )
+              }
             </View>
           </TouchableOpacity>
           {/* Information */}

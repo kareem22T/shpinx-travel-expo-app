@@ -35,8 +35,8 @@ export default StyleSheet.create({
   serviceItemBlock: {
     alignItems: 'center',
     justifyContent: 'center',
-
-    width: 60,
+    marginLeft: 10,
+    marginRight: 5
   },
   //list css
   listImage: {

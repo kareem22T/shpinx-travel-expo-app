@@ -3,6 +3,7 @@ import {
   View,
   ScrollView,
   FlatList,
+  Image,
   Animated,
   TouchableOpacity,
 } from 'react-native';
@@ -24,8 +25,9 @@ import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import styles from './styles';
 import {HelpBlockData} from '@data';
 import {useTranslation} from 'react-i18next';
+import { url } from '../../apis/a-MainVariables';
 
-export default function HotelDetail({navigation}) {
+export default function HotelDetail({navigation, route}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
 
@@ -96,6 +98,7 @@ export default function HotelDetail({navigation}) {
   const deltaY = new Animated.Value(0);
 
   useEffect(() => {
+    console.log(route.params.hotel.reasons);
     InteractionManager.runAfterInteractions(() => {
       setRenderMapView(true);
     });
@@ -106,22 +109,26 @@ export default function HotelDetail({navigation}) {
 
   return (
     <View style={{flex: 1}}>
-      <Animated.Image
-        source={Images.room6}
-        style={[
-          styles.imgBanner,
-          {
-            height: deltaY.interpolate({
-              inputRange: [
-                0,
-                Utils.scaleWithPixel(200),
-                Utils.scaleWithPixel(200),
-              ],
-              outputRange: [heightImageBanner, heightHeader, heightHeader],
-            }),
-          },
-        ]}
-      />
+      {
+      route.params.hotel && (
+        <Animated.Image
+          source={{uri: url + route.params.hotel['gallery'][0]['path']}}
+          style={[
+            styles.imgBanner,
+            {
+              height: deltaY.interpolate({
+                inputRange: [
+                  0,
+                  Utils.scaleWithPixel(200),
+                  Utils.scaleWithPixel(200),
+                ],
+                outputRange: [heightImageBanner, heightHeader, heightHeader],
+              }),
+            },
+          ]}
+        />
+      )
+      }
       {/* Header */}
       <Header
         title=""
@@ -169,8 +176,8 @@ export default function HotelDetail({navigation}) {
                   borderColor: colors.border,
                 },
               ]}>
-              <Text title2 semibold style={{marginBottom: 5}}>
-                Hilton San Francisco
+              <Text title2 semibold style={{marginBottom: 5, textAlign: 'center'}}>
+                {route.params.hotel.names[0].name}
               </Text>
               <StarRating
                 disabled={true}
@@ -186,8 +193,7 @@ export default function HotelDetail({navigation}) {
                   marginTop: 5,
                   textAlign: 'center',
                 }}>
-                Facilities provided may range from a modest quality mattress in
-                a small room to large suites
+                  {route.params.hotel.slogans[0].slogan}
               </Text>
             </View>
             {/* Rating Review */}
@@ -298,27 +304,20 @@ export default function HotelDetail({navigation}) {
                 {t('hotel_description')}
               </Text>
               <Text body2 style={{marginTop: 5}}>
-                218 Austen Mountain, consectetur adipiscing, sed eiusmod tempor
-                incididunt ut labore et dolore
+                {route.params.hotel.descriptions[0].description}
               </Text>
             </View>
             {/* Facilities Icon */}
             <View
               style={[
                 styles.contentService,
-                {borderBottomColor: colors.border},
+                {borderBottomColor: colors.border, gap:7},
               ]}>
-              {[
-                {key: '1', name: 'wifi'},
-                {key: '2', name: 'coffee'},
-                {key: '3', name: 'bath'},
-                {key: '4', name: 'car'},
-                {key: '5', name: 'paw'},
-              ].map((item, index) => (
+              {route.params.hotel.features.map((item, index) => (
                 <View style={{alignItems: 'center'}} key={'service' + index}>
-                  <Icon name={item.name} size={24} color={colors.accent} />
+                  <Image source={{uri: url + item.icon_path}} style={{width: 30, height: 30, resizeMode: "contain"}} />
                   <Text overline grayColor style={{marginTop: 4}}>
-                    {item.name}
+                    {item.names[0].name}
                   </Text>
                 </View>
               ))}
@@ -330,8 +329,7 @@ export default function HotelDetail({navigation}) {
                 {t('location')}
               </Text>
               <Text body2 numberOfLines={2}>
-                218 Austen Mountain, consectetur adipiscing, sed do eiusmod
-                tempor incididunt ut labore et …
+                {route.params.hotel.addresses[0].address}
               </Text>
               <View
                 style={{
@@ -375,7 +373,7 @@ export default function HotelDetail({navigation}) {
                     {t('check_in_from')}
                   </Text>
                   <Text body2 accentColor semibold>
-                    15:00
+                  {route.params.hotel.check_in}
                   </Text>
                 </View>
                 <View
@@ -387,7 +385,7 @@ export default function HotelDetail({navigation}) {
                     {t('check_out_from')}
                   </Text>
                   <Text body2 accentColor semibold>
-                    15:00
+                  {route.params.hotel.check_out}
                   </Text>
                 </View>
               </View>
@@ -399,18 +397,25 @@ export default function HotelDetail({navigation}) {
                 {t('room_type')}
               </Text>
               <FlatList
-                data={roomType}
+                data={route.params.hotel.rooms}
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) => (
                   <RoomType
-                    image={item.image}
-                    name={item.name}
-                    price={item.price}
-                    available={item.available}
-                    services={item.services}
+                    image={{uri: url + item.gallery[0].path}}
+                    name={item.names[0].name}
+                    price={"$" + item.prices[1].price }
+                    available={"Hurry Up! This is your last room..."}
+                    services={
+                      [
+                        {icon: 'wifi', name: 'Free Wifi'},
+                        {icon: 'shower', name: 'Shower'},
+                        {icon: 'users', name: 'Max 3 aduts'},
+                        {icon: 'subway', name: 'Nearby Subway'}
+                      ]          
+                    }
                     style={{marginTop: 10}}
                     onPress={() => {
-                      navigation.navigate('HotelInformation');
+                      navigation.navigate('HotelInformation', {room: item});
                     }}
                   />
                 )}
@@ -463,7 +468,7 @@ export default function HotelDetail({navigation}) {
               <HelpBlock
                 title={helpBlock.title}
                 description={helpBlock.description}
-                phone={helpBlock.phone}
+                phone={route.params.hotel.phone}
                 email={helpBlock.email}
                 style={{margin: 20}}
                 onPress={() => {
@@ -474,54 +479,23 @@ export default function HotelDetail({navigation}) {
             {/* Other Information */}
             <View style={{paddingVertical: 10}}>
               <Text headline semibold>
-                4 Reason To Choose Us
+                Reasons To Choose Us
               </Text>
-              <View style={styles.itemReason}>
-                <Icon name="map-marker-alt" size={18} color={colors.accent} />
-                <View style={{marginLeft: 10}}>
-                  <Text subhead semibold>
-                    Good Location
-                  </Text>
-                  <Text body2>
-                    Andaz Tokyo Toranomon Hills is one of the newest luxury
-                    hotels in Tokyo. Located in one of the uprising areas of
-                    Tokyo
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.itemReason}>
-                <Icon name="pagelines" size={18} color={colors.accent} />
-                <View style={{marginLeft: 10}}>
-                  <Text subhead semibold>
-                    Great Food
-                  </Text>
-                  <Text body2>
-                    Excellent cuisine, typical dishes from the best Romagna
-                    tradition and more!
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.itemReason}>
-                <Icon name="servicestack" size={18} color={colors.accent} />
-                <View style={{marginLeft: 10}}>
-                  <Text subhead semibold>
-                    Private Beach
-                  </Text>
-                  <Text body2>
-                    Excellent cuisine, typical dishes from the best Romagna
-                    tradition and more!
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.itemReason}>
-                <Icon name="trophy" size={18} color={colors.accent} />
-                <View style={{marginLeft: 10}}>
-                  <Text subhead semibold>
-                    5 Stars Hospitality
-                  </Text>
-                  <Text body2>Romagna hospitality, typical and much</Text>
-                </View>
-              </View>
+                {
+                    route.params.hotel.reasons.map((reason, index) => (
+                      <View style={styles.itemReason}  key={'reason' + index}>
+                          <Image source={{uri: url + reason.icon_path}} style={{width: 30, height: 30, resizeMode: "contain"}} />
+                              <View style={{marginLeft: 10}}>
+                                <Text subhead semibold>
+                                  {reason.names[0].name}
+                                </Text> 
+                                <Text body2>
+                                  {reason.descriptions[0].description}
+                                </Text>
+                              </View>
+                      </View>
+                    ))
+                }
             </View>
           </View>
         </ScrollView>
@@ -533,7 +507,7 @@ export default function HotelDetail({navigation}) {
               {t('price')}
             </Text>
             <Text title3 primaryColor semibold>
-              $399.99
+              $200
             </Text>
             <Text caption1 semibold style={{marginTop: 5}}>
               {t('avg_night')}

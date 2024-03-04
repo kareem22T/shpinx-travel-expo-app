@@ -5,6 +5,8 @@ import {Header, SafeAreaView, Icon, HotelItem, FilterSort} from '@components';
 import styles from './styles';
 import * as Utils from '@utils';
 import {useTranslation} from 'react-i18next';
+import {getHotels} from '../../apis/hotel'
+import {url} from '../../apis/a-MainVariables'
 import {HotelData} from '@data';
 
 export default function Hotel({navigation}) {
@@ -12,7 +14,7 @@ export default function Hotel({navigation}) {
   const {t} = useTranslation();
 
   const [modeView, setModeView] = useState('block');
-  const [hotels] = useState(HotelData);
+  const [hotels, setHotels] = useState([]);
   const [refreshing] = useState(false);
   const scrollAnim = new Animated.Value(0);
   const offsetAnim = new Animated.Value(0);
@@ -28,6 +30,10 @@ export default function Hotel({navigation}) {
     0,
     40,
   );
+
+  getHotels().then(res => {
+    setHotels(res.data);
+  })
 
   const onChangeSort = () => {};
 
@@ -113,19 +119,19 @@ export default function Hotel({navigation}) {
               renderItem={({item, index}) => (
                 <HotelItem
                   block
-                  image={item.image}
-                  name={item.name}
-                  location={item.location}
-                  price={item.price}
-                  available={item.available}
-                  rate={item.rate}
-                  rateStatus={item.rateStatus}
-                  numReviews={item.numReviews}
-                  services={item.services}
+                  image={url + item.gallery[0].path}
+                  name={item.names[0].name}
+                  location={item.addresses[0].address}
+                  price={200}
+                  available={item.slogans[0].slogan}
+                  rate={5}
+                  rateStatus={"Exelant"}
+                  numReviews={200}
+                  services={item.features}
                   style={{
                     paddingBottom: 10,
                   }}
-                  onPress={() => navigation.navigate('HotelDetail')}
+                  onPress={() => navigation.navigate('HotelDetail', {hotel: item})}
                   onPressTag={() => navigation.navigate('Review')}
                 />
               )}
@@ -352,6 +358,7 @@ export default function Hotel({navigation}) {
           </View>
         );
     }
+
   };
 
   return (

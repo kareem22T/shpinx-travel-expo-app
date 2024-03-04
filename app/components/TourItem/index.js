@@ -14,11 +14,11 @@ export default function TourItem(props) {
     grid,
     style,
     image,
-    name,
+    title,
     price,
     rate,
     rateCount,
-    author,
+    intro,
     onPress,
     onPressUser,
     onPressBookNow,
@@ -47,15 +47,8 @@ export default function TourItem(props) {
           </View>
         </TouchableOpacity>
         <View style={{marginTop: 5, paddingHorizontal: 20}}>
-          <ProfileDetail
-            image={author.image}
-            textFirst={name}
-            textSecond={author.name}
-            point={author.point}
-            icon={false}
-            style={{marginTop: 10}}
-            onPress={onPressUser}
-          />
+          <Text style={{fontSize: 18, fontWeight: 600, marginTop: 5}}>{title}</Text>
+          <Text>{intro}</Text>
           <View style={styles.blockDetailContent}>
             <View
               style={{
@@ -85,7 +78,7 @@ export default function TourItem(props) {
                 {rateCount}
               </Text>
             </View>
-            <Tag outline round style={{height: 30}} onPress={onPressBookNow}>
+            <Tag outline round style={{height: 30, marginTop: 10}} onPress={onPressBookNow}>
               {t('book_now')}
             </Tag>
           </View>

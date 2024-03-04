@@ -36,29 +36,9 @@ export default function Home({navigation}) {
       route: 'OverViewCar',
     },
     {
-      icon: 'plane',
-      name: 'flight',
-      route: 'FlightSearch',
-    },
-    {
-      icon: 'ship',
-      name: 'cruise',
-      route: 'CruiseSearch',
-    },
-    {
-      icon: 'bus',
-      name: 'bus',
-      route: 'BusSearch',
-    },
-    {
-      icon: 'star',
-      name: 'event',
-      route: 'DashboardEvent',
-    },
-    {
-      icon: 'ellipsis-h',
-      name: 'more',
-      route: 'More',
+      icon: 'home',
+      name: 'Cottage',
+      route: 'Hotel',
     },
   ]);
   const [relate] = useState([
