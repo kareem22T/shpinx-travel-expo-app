@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {View, TouchableOpacity} from 'react-native';
-import {BaseStyle, useTheme, FontSupport, DefaultFont} from '@config';
-import {SafeAreaView, Icon, Text} from '@components';
-import {ApplicationActions} from '@actions';
+import {BaseStyle, useTheme, FontSupport, DefaultFont} from './../../config';
+import {SafeAreaView, Icon, Text} from './../../components';
+import {ApplicationActions} from './../../actions';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 

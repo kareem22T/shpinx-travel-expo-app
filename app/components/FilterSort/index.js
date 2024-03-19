@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import styles from './styles';
-import {Icon, Text, Button} from '@components';
+import {Icon, Text, Button} from './../../components';
 import PropTypes from 'prop-types';
-import {BaseColor, useTheme} from '@config';
+import {BaseColor, useTheme} from './../../config';
 import Modal from 'react-native-modal';
 import {useTranslation} from 'react-i18next';
 

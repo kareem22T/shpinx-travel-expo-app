@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, ActivityIndicator, View} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Coupon} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, Text, Coupon} from './../../components';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
-import {CouponsData} from '@data';
+import {CouponsData} from './../../data';
 
 export default function Coupons({navigation}) {
   const {colors} = useTheme();

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, FlatList, TouchableOpacity, ScrollView} from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Tag, RangeSlider} from '@components';
-import * as Utils from '@utils';
+import {BaseStyle, BaseColor, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, Text, Tag, RangeSlider} from './../../components';
+import * as Utils from './../../utils';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, ScrollView, Animated, TouchableOpacity} from 'react-native';
-import {BaseColor, Images} from '@config';
+import {BaseColor, Images} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -10,8 +10,8 @@ import {
   ProfileGroup,
   Card,
   PostListItem,
-} from '@components';
-import * as Utils from '@utils';
+} from './../../components';
+import * as Utils from './../../utils';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 

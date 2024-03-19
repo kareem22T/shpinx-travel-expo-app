@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {Text, Icon} from '@components';
+import {Text, Icon} from './../../components';
 import styles from './styles';
 import {Calendar} from 'react-native-calendars';
 import Modal from 'react-native-modal';
-import {BaseColor, useTheme, DefaultFont} from '@config';
+import {BaseColor, useTheme, DefaultFont} from './../../config';
 import {useTranslation} from 'react-i18next';
 
 export default function DatePicker(props) {

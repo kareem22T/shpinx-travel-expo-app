@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import {
   Image,
   Header,
@@ -9,7 +9,7 @@ import {
   Text,
   StarRating,
   TextInput,
-} from '@components';
+} from './../../components';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
 

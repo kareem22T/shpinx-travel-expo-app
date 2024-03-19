@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, View} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, BookingHistory} from '@components';
-import {BookingHistoryData} from '@data';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, BookingHistory} from './../../components';
+import {BookingHistoryData} from './../../data';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
 

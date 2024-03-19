@@ -85,10 +85,10 @@ export const ThemeSupport = [
     light: {
       dark: false,
       colors: {
-        primary: '#5DADE2',
-        primaryDark: '#1281ac',
-        primaryLight: '#68c9ef',
-        accent: '#FF8A65',
+        primary: '#1976bc',
+        primaryDark: '#1976bc',
+        primaryLight: '#92dd36d1',
+        accent: '#4A90A4',
         background: 'white',
         card: '#F5F5F5',
         text: '#212121',
@@ -173,13 +173,13 @@ export const ThemeSupport = [
  * Define default theme use for whole application
  */
 export const DefaultTheme = {
-  theme: 'orange',
+  theme: 'blue',
   light: {
     dark: false,
     colors: {
-      primary: '#E5634D',
-      primaryDark: '#C31C0D',
-      primaryLight: '#FF8A65',
+      primary: '#1976bc',
+      primaryDark: '#1976bc',
+      primaryLight: '#92dd36d1',
       accent: '#4A90A4',
       background: 'white',
       card: '#F5F5F5',
@@ -205,7 +205,7 @@ export const DefaultTheme = {
 /**
  * Define list font use for whole application
  */
-export const FontSupport = ['Raleway', 'Roboto', 'Merriweather'];
+export const FontSupport = ['Raleway', 'Roboto', 'Merriweather', "Cairo"];
 
 /**
  * Define font default use for whole application

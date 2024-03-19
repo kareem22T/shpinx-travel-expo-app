@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text, Icon, StarRating, Tag, ProfileDetail} from '@components';
-import {BaseColor, useTheme} from '@config';
+import {Image, Text, Icon, StarRating, Tag, ProfileDetail} from './../../components';
+import {BaseColor, useTheme} from './../../config';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';

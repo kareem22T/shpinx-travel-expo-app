@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, ScrollView} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import {BaseStyle, useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
-import {Header, SafeAreaView, Icon, Text, Button} from '@components';
+import {Header, SafeAreaView, Icon, Text, Button} from './../../components';
 import styles from './styles';
 
 export default function BusTicket({navigation}) {

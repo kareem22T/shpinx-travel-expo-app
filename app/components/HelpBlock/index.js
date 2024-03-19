@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {useTheme} from '@config';
-import {Text, Icon} from '@components';
+import {useTheme} from './../../config';
+import {Text, Icon} from './../../components';
 import styles from './styles';
 export default function HelpBlock(props) {
   const {colors} = useTheme();

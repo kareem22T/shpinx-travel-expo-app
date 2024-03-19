@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, ScrollView, ImageBackground, FlatList} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {BaseStyle, Images, useTheme} from '@config';
+import {BaseStyle, Images, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -9,7 +9,7 @@ import {
   Text,
   Card,
   ProfileDescription,
-} from '@components';
+} from './../../components';
 import styles from './styles';
 
 export default function AboutUs({navigation}) {

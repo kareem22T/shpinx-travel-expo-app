@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text, Icon, Tag} from '@components';
-import {BaseColor, useTheme} from '@config';
+import {Image, Text, Icon, Tag} from './../../components';
+import {BaseColor, useTheme} from './../../config';
 import PropTypes from 'prop-types';
 import styles from './styles';
 export default function RoomType(props) {

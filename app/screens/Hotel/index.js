@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, View, Animated} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, HotelItem, FilterSort} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, HotelItem, FilterSort} from './../../components';
 import styles from './styles';
-import * as Utils from '@utils';
+import * as Utils from './../../utils';
 import {useTranslation} from 'react-i18next';
 import {getHotels} from '../../apis/hotel'
 import {url} from '../../apis/a-MainVariables'
-import {HotelData} from '@data';
+import {HotelData} from './../../data';
 
 export default function Hotel({navigation}) {
   const {colors} = useTheme();
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
+
+  const [languageSelected, setLanguageSelected] = useState(i18n.language);
 
   const [modeView, setModeView] = useState('block');
   const [hotels, setHotels] = useState([]);
@@ -31,7 +33,7 @@ export default function Hotel({navigation}) {
     40,
   );
 
-  getHotels().then(res => {
+  getHotels(languageSelected.toUpperCase()).then(res => {
     setHotels(res.data);
   })
 
@@ -122,7 +124,7 @@ export default function Hotel({navigation}) {
                   image={url + item.gallery[0].path}
                   name={item.names[0].name}
                   location={item.addresses[0].address}
-                  price={200}
+                  price={item.rooms.length ? item.rooms[0].prices[0].price + " USD" : ''}
                   available={item.slogans[0].slogan}
                   rate={5}
                   rateStatus={"Exelant"}
@@ -189,15 +191,15 @@ export default function Hotel({navigation}) {
               renderItem={({item, index}) => (
                 <HotelItem
                   grid
-                  image={item.image}
-                  name={item.name}
-                  location={item.location}
-                  price={item.price}
-                  available={item.available}
-                  rate={item.rate}
-                  rateStatus={item.rateStatus}
-                  numReviews={item.numReviews}
-                  services={item.services}
+                  image={url + item.gallery[0].path}
+                  name={item.names[0].name}
+                  location={item.addresses[0].address}
+                  price={item.rooms.length ? item.rooms[0].prices[0].price + " USD" : ''}
+                  available={item.slogans[0].slogan}
+                  rate={5}
+                  rateStatus={"Exelant"}
+                  numReviews={200}
+                  services={item.features}
                   onPress={() => navigation.navigate('HotelDetail')}
                   style={{
                     marginBottom: 15,

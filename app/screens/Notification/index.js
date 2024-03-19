@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {RefreshControl, FlatList, View} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import {BaseStyle, useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
-import {Header, SafeAreaView, Icon, ListThumbCircle} from '@components';
+import {Header, SafeAreaView, Icon, ListThumbCircle} from './../../components';
 import styles from './styles';
-import {NotificationData} from '@data';
+import {NotificationData} from './../../data';
 
 export default function Notification({navigation}) {
   const {t} = useTranslation();

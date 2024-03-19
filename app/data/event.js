@@ -1,5 +1,5 @@
-import {Images} from '@config';
-import {UserData} from '@data';
+import {Images} from './../config';
+import {UserData} from './user';
 
 const EventListData = [
   {

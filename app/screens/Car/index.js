@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, View, Animated} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import {BaseStyle, useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
-import {Header, SafeAreaView, Icon, CarItem, FilterSort} from '@components';
+import {Header, SafeAreaView, Icon, CarItem, FilterSort} from './../../components';
 import styles from './styles';
-import * as Utils from '@utils';
-import {CarData} from '@data';
+import * as Utils from './../../utils';
+import {CarData} from './../../data';
 
 export default function Car({navigation}) {
   const {colors} = useTheme();

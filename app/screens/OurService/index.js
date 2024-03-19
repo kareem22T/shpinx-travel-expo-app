@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, ScrollView} from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -8,7 +8,7 @@ import {
   Text,
   Image,
   ProfileDescription,
-} from '@components';
+} from './../../components';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 
@@ -86,7 +86,7 @@ export default function OurService({navigation}) {
           </View>
           <View style={{padding: 20}}>
             <ProfileDescription
-              image={require('@assets/images/profile-2.jpg')}
+              image={require('./../../assets/images/profile-2.jpg')}
               name="Steve Garrett"
               subName="Travel Agency"
               description="Andaz Tokyo Toranomon Hills is one of the newest luxury hotels in Tokyo. Located in one of the uprising areas of Tokyo"

@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Text} from '@components';
+import {Text} from './../../components';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import {useTheme} from '@config';
+import {useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
 
 export default function BookingHistory(props) {

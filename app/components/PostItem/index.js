@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text, Icon} from '@components';
+import {Image, Text, Icon} from './../../components';
 import styles from './styles';
 import PropTypes from 'prop-types';
-import {BaseColor, useTheme} from '@config';
+import {BaseColor, useTheme} from './../../config';
 export default function PostItem(props) {
   const {colors} = useTheme();
   const {style, children, title, description, onPress, image} = props;

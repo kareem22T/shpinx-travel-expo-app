@@ -1,9 +1,9 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import styles from './styles';
-import {Text} from '@components';
+import {Text} from './../../components';
 import PropTypes from 'prop-types';
-import {useTheme} from '@config';
+import {useTheme} from './../../config';
 
 export default function StepProgress(props) {
   const {colors} = useTheme();

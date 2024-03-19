@@ -6,7 +6,7 @@ import {
   Switch,
   TouchableOpacity,
 } from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import {
   Image,
   Header,
@@ -16,10 +16,10 @@ import {
   HotelItem,
   Button,
   ProfilePerformance,
-} from '@components';
+} from './../../components';
 import styles from './styles';
 import {TabView, TabBar} from 'react-native-tab-view';
-import {UserData, HotelData} from '@data';
+import {UserData, HotelData} from './../../data';
 import {useTranslation} from 'react-i18next';
 
 export default function Profile2({navigation}) {

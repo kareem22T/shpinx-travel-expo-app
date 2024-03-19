@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {Text, Button, Icon} from '@components';
+import {Text, Button, Icon} from './../../components';
 import styles from './styles';
 import Modal from 'react-native-modal';
-import {useTheme} from '@config';
+import {useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
 
 export default function FormOption(props) {

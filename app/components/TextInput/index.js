@@ -1,7 +1,7 @@
 import React from 'react';
 import {TextInput, View, I18nManager} from 'react-native';
 import PropTypes from 'prop-types';
-import {BaseStyle, BaseColor, useTheme} from '@config';
+import {BaseStyle, BaseColor, useTheme} from './../../config';
 
 export default function Index(props) {
   const {colors} = useTheme();

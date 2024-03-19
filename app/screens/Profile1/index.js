@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, ScrollView, FlatList} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import {BaseStyle, useTheme} from './../../config';
 import {
   Image,
   Header,
@@ -11,9 +11,9 @@ import {
   Tag,
   ProfilePerformance,
   Card,
-} from '@components';
+} from './../../components';
 import styles from './styles';
-import {UserData, HotelData, TourData} from '@data';
+import {UserData, HotelData, TourData} from './../../data';
 import {useTranslation} from 'react-i18next';
 
 export default function Profile1({navigation}) {

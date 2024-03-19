@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, TouchableOpacity, ScrollView} from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
+import {BaseStyle, BaseColor, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -8,9 +8,9 @@ import {
   Text,
   DatePicker,
   RangeSlider,
-} from '@components';
+} from './../../components';
 import Modal from 'react-native-modal';
-import * as Utils from '@utils';
+import * as Utils from './../../utils';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
 

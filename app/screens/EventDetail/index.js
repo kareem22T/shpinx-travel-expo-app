@@ -6,7 +6,7 @@ import {
   Animated,
   TouchableOpacity,
 } from 'react-native';
-import {BaseColor, Images, useTheme} from '@config';
+import {BaseColor, Images, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -17,10 +17,10 @@ import {
   Image,
   Button,
   EventCard,
-} from '@components';
+} from './../../components';
 import {useTranslation} from 'react-i18next';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import * as Utils from '@utils';
+import * as Utils from './../../utils';
 import styles from './styles';
 
 export default function EventDetail({navigation}) {

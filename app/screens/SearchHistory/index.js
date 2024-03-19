@@ -8,8 +8,8 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
-import {Header, SafeAreaView, TextInput, Icon, Text, Card} from '@components';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
+import {Header, SafeAreaView, TextInput, Icon, Text, Card} from './../../components';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 

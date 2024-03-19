@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {Text, Icon} from '@components';
+import {Text, Icon} from './../../components';
 import styles from './styles';
-import {BaseColor, useTheme} from '@config';
+import {BaseColor, useTheme} from './../../config';
 
 export default function QuantityPicker(props) {
   const [value, setValue] = useState(props.value);

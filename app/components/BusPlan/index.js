@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {Icon, Text} from '@components';
+import {Icon, Text} from './../../components';
 import styles from './styles';
-import {useTheme} from '@config';
+import {useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
 
 export default function BusPlan(props) {

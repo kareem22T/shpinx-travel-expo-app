@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Text, Icon, Button} from '@components';
-import {useTheme} from '@config';
+import {Text, Icon, Button} from './../../components';
+import {useTheme} from './../../config';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
@@ -138,13 +138,13 @@ export default function PackageItem(props) {
         {services.map((item, index) => {
           return (
             <View
-              key={item.name}
+              key={index}
               style={[styles.containItem, {borderTopColor: colors.border}]}>
               <Text headline accentColor style={{marginBottom: 6}}>
-                {item.name}
+                {item.titles[0].title}
               </Text>
               <Text body2 grayColor>
-                {item.desc}
+                {item.descriptions[0].description}
               </Text>
             </View>
           );

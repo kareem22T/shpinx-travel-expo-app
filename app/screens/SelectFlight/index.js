@@ -5,10 +5,10 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, TextInput, Text, Image} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, TextInput, Text, Image} from './../../components';
 import styles from './styles';
-import {FlightBrandData} from '@data';
+import {FlightBrandData} from './../../data';
 import {useTranslation} from 'react-i18next';
 
 export default function SelectFlight({navigation, route}) {

@@ -2,8 +2,8 @@ import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
-import {Image} from '@components';
-import {Images, useTheme} from '@config';
+import {Image} from './../../components';
+import {Images, useTheme} from './../../config';
 
 export default function Card(props) {
   const {colors} = useTheme();

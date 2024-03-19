@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import Swiper from 'react-native-swiper';
-import {Image, Header, SafeAreaView, Icon, Text} from '@components';
+import {Image, Header, SafeAreaView, Icon, Text} from './../../components';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 

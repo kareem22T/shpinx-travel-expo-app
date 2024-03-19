@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
-import {Text, Icon} from '@components';
-import {BaseColor, useTheme} from '@config';
+import {Text, Icon} from './../../components';
+import {BaseColor, useTheme} from './../../config';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 

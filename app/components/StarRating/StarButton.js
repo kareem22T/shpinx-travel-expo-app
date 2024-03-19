@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {Image} from '@components';
+import {Image} from './../../components';
 import PropTypes from 'prop-types';
 import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 import EntypoIcons from 'react-native-vector-icons/Entypo';

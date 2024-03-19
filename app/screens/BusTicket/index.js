@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, ScrollView} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import {BaseStyle, useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
-import {Header, SafeAreaView, Icon, Text, BusPlan, Button} from '@components';
+import {Header, SafeAreaView, Icon, Text, BusPlan, Button} from './../../components';
 import styles from './styles';
 
 export default function BusTicket({navigation}) {
@@ -41,10 +41,10 @@ export default function BusTicket({navigation}) {
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1, alignItems: 'flex-start'}}>
                 <Text caption1 light>
-                  Felix Travel
+                  Sphinx Travel
                 </Text>
                 <Text headline style={{marginTop: 5}}>
-                  Felix Travel
+                  Sphinx Travel
                 </Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-start'}}>

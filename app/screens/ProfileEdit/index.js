@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import {BaseStyle, useTheme} from './../../config';
 import {
   Image,
   Header,
@@ -9,9 +9,9 @@ import {
   Text,
   Button,
   TextInput,
-} from '@components';
+} from './../../components';
 import styles from './styles';
-import {UserData} from '@data';
+import {UserData} from './../../data';
 import {useTranslation} from 'react-i18next';
 
 export default function ProfileEdit({navigation}) {

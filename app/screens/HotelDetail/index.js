@@ -7,7 +7,8 @@ import {
   Animated,
   TouchableOpacity,
 } from 'react-native';
-import {BaseColor, Images, useTheme} from '@config';
+import * as Location from 'expo-location';
+import {BaseColor, Images, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -18,24 +19,31 @@ import {
   HelpBlock,
   Button,
   RoomType,
-} from '@components';
-import * as Utils from '@utils';
+} from './../../components';
+import * as Utils from './../../utils';
 import {InteractionManager} from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import styles from './styles';
-import {HelpBlockData} from '@data';
+import {HelpBlockData} from './../../data';
 import {useTranslation} from 'react-i18next';
 import { url } from '../../apis/a-MainVariables';
+import axios from 'axios';
+import { getTour } from '../../apis/tour';
+import { getHotelRestaurante } from '../../apis/hotel';
+import Slider from '../../components/Slider/component/Slider';
 
 export default function HotelDetail({navigation, route}) {
   const {colors} = useTheme();
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
+
+  const [languageSelected, setLanguageSelected] = useState(i18n.language);
 
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const [renderMapView, setRenderMapView] = useState(false);
+  const [restaurants, setResturants] = useState(null)
   const [region] = useState({
-    latitude: 1.9344,
-    longitude: 103.358727,
+    latitude: parseFloat(route.params.hotel.lat),
+    longitude: parseFloat(route.params.hotel.lng),
     latitudeDelta: 0.05,
     longitudeDelta: 0.004,
   });
@@ -97,13 +105,22 @@ export default function HotelDetail({navigation, route}) {
   const [helpBlock] = useState(HelpBlockData);
   const deltaY = new Animated.Value(0);
 
+  const handleGoToTour = (id) => {
+    getTour(id, languageSelected).then(res => {
+      navigation.navigate('TourDetail', {tour: res.data});
+    })
+  
+  }
+
   useEffect(() => {
+    getHotelRestaurante(route.params.hotel.id, languageSelected).then(res => {
+      setResturants(res.data);
+    })  
     console.log(route.params.hotel.reasons);
     InteractionManager.runAfterInteractions(() => {
       setRenderMapView(true);
     });
   }, []);
-
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
   const marginTopBanner = heightImageBanner - heightHeader - 40;
 
@@ -341,12 +358,13 @@ export default function HotelDetail({navigation, route}) {
                   <MapView
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
+                    key="AIzaSyBzXxR0ge7r2dT4BIVCl9uSLHKT9em6wzQ"
                     region={region}
                     onRegionChange={() => {}}>
                     <Marker
                       coordinate={{
-                        latitude: 1.9344,
-                        longitude: 103.358727,
+                        latitude: parseFloat(route.params.hotel.lat),
+                        longitude: parseFloat(route.params.hotel.lng),
                       }}
                     />
                   </MapView>
@@ -392,7 +410,7 @@ export default function HotelDetail({navigation, route}) {
             </View>
             {/* Rooms */}
             <View
-              style={[styles.blockView, {borderBottomColor: colors.border}]}>
+              style={[styles.blockView, {borderBottomColor: colors.border}, !route.params.hotel.rooms.length && {display: "none"}]}>
               <Text headline semibold>
                 {t('room_type')}
               </Text>
@@ -423,7 +441,7 @@ export default function HotelDetail({navigation, route}) {
             </View>
             {/* Todo Things */}
             <View
-              style={[styles.blockView, {borderBottomColor: colors.border}]}>
+              style={[styles.blockView, {borderBottomColor: colors.border}, !route.params.hotel.tours.length && {display: "none"}]}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -434,43 +452,62 @@ export default function HotelDetail({navigation, route}) {
                 <Text headline semibold>
                   {t('todo_things')}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Post');
-                  }}>
-                  <Text caption1 grayColor>
-                    {t('show_more')}
-                  </Text>
-                </TouchableOpacity>
               </View>
-              <FlatList
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                data={todo}
-                keyExtractor={(item, index) => item.id}
-                renderItem={({item}) => (
-                  <PostListItem
-                    style={{marginRight: 15}}
-                    title="South Travon"
-                    date="6 Deals Left"
-                    description="Andaz Tokyo Toranomon Hills is one of the newest luxury hotels in Tokyo. Located in one of the uprising areas of Tokyo"
-                    image={item.image}
-                    onPress={() => {
-                      navigation.navigate('PostDetail');
-                    }}
+              {
+                route.params.hotel.tours.map(tour => (
+                  <FlatList
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    data={todo}
+                    keyExtractor={(item, index) => item.id}
+                    renderItem={({item}) => (
+                      <PostListItem
+                        style={{marginRight: 15}}
+                        title={tour.titles[0].title}
+                        // date=""
+                        description={tour.intros[0].intro}
+                        image={ url + tour.gallery[0].path}
+                        onPress={() => {
+                          handleGoToTour(tour.id)
+                        }}
+                      />
+                    )}
                   />
-                )}
-              />
+                ))
+              }
+            </View>
+            {/* Nearby Restaurants */}
+            <View
+              style={[styles.blockView, {borderBottomColor: colors.border, paddingBottom: 0, justifyContent: "flex-start", alignItems: "flex-start"}]}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginBottom: 10,
+                  width: "100%",
+                  alignItems: 'flex-end',
+                }}>
+                <Text headline semibold>
+                  {t('Nearest_restaurants')}
+                </Text>
+              </View>
+              {
+                restaurants && (
+                  <View style={{width: "100%", zIndex: 11}}>
+                    <Slider slides={restaurants} />
+                  </View>
+                )
+              }
             </View>
             {/* Help Block Information */}
             <View
-              style={[styles.blockView, {borderBottomColor: colors.border}]}>
+              style={[styles.blockView, {borderBottomColor: colors.border, paddingTop: 0}]}>
               <HelpBlock
                 title={helpBlock.title}
                 description={helpBlock.description}
                 phone={route.params.hotel.phone}
                 email={helpBlock.email}
-                style={{margin: 20}}
+                style={{marginRight: 10, marginLeft: 10, marginTop: 10}}
                 onPress={() => {
                   navigation.navigate('ContactUs');
                 }}
@@ -485,7 +522,7 @@ export default function HotelDetail({navigation, route}) {
                     route.params.hotel.reasons.map((reason, index) => (
                       <View style={styles.itemReason}  key={'reason' + index}>
                           <Image source={{uri: url + reason.icon_path}} style={{width: 30, height: 30, resizeMode: "contain"}} />
-                              <View style={{marginLeft: 10}}>
+                              <View style={{marginLeft: 10, width: "90%"}}>
                                 <Text subhead semibold>
                                   {reason.names[0].name}
                                 </Text> 

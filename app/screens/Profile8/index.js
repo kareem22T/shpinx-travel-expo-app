@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Image, ScrollView, Animated} from 'react-native';
-import {useTheme, Images} from '@config';
+import {useTheme, Images} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -8,10 +8,10 @@ import {
   Text,
   Tag,
   ProfilePerformance,
-} from '@components';
-import * as Utils from '@utils';
+} from './../../components';
+import * as Utils from './../../utils';
 import styles from './styles';
-import {UserData} from '@data';
+import {UserData} from './../../data';
 import {useTranslation} from 'react-i18next';
 
 export default function Profile8({navigation}) {

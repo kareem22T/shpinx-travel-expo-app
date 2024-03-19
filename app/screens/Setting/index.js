@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {View, TouchableOpacity, Switch, ScrollView} from 'react-native';
-import {BaseStyle, BaseSetting, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text} from '@components';
+import {BaseStyle, BaseSetting, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, Text} from './../../components';
 import {useTranslation} from 'react-i18next';
-import * as Utils from '@utils';
+import * as Utils from './../../utils';
 import styles from './styles';
 
 export default function Setting({navigation}) {
@@ -75,19 +75,6 @@ export default function Setting({navigation}) {
                 enableRTL={true}
               />
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.profileItem,
-              {borderBottomColor: colors.border, borderBottomWidth: 1},
-            ]}
-            onPress={() => {
-              navigation.navigate('ThemeSetting');
-            }}>
-            <Text body1>{t('theme')}</Text>
-            <View
-              style={[styles.themeIcon, {backgroundColor: colors.primary}]}
-            />
           </TouchableOpacity>
           <TouchableOpacity
             style={[

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, ScrollView} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Button} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, Text, Button} from './../../components';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 
@@ -39,7 +39,7 @@ export default function PreviewBusBooking({navigation}) {
                 {t('bus_name')}
               </Text>
               <Text body1 semibold>
-                Felix Travel
+                Sphinx Travel
               </Text>
             </View>
             <View style={{paddingVertical: 10}}>

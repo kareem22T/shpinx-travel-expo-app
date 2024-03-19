@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, View, Animated} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, BusItem, FilterSort} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, BusItem, FilterSort} from './../../components';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
-import {BusData} from '@data';
+import {BusData} from './../../data';
 
 export default function BusList({navigation}) {
   const {colors} = useTheme();

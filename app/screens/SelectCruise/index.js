@@ -5,8 +5,8 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, TextInput} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, Text, TextInput} from './../../components';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 

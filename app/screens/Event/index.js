@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, View, Animated} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, EventItem, FilterSort} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, EventItem, FilterSort} from './../../components';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
-import * as Utils from '@utils';
-import {EventListData} from '@data';
+import * as Utils from './../../utils';
+import {EventListData} from './../../data';
 
 export default function Event({navigation}) {
   const {colors} = useTheme();

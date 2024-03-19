@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
-import {BaseColor} from '@config';
-import * as Utils from '@utils';
+import {BaseColor} from './../../config';
+import * as Utils from './../../utils';
 
 export default StyleSheet.create({
   contentGallery: {width: '100%', height: Utils.scaleWithPixel(205)},

@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
+import {BaseStyle, BaseColor, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -15,7 +15,7 @@ import {
   Button,
   BookingTime,
   TextInput,
-} from '@components';
+} from './../../components';
 import Modal from 'react-native-modal';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';

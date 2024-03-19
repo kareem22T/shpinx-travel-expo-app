@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, View, Animated} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, TourItem, FilterSort} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, TourItem, FilterSort} from './../../components';
 import styles from './styles';
-import * as Utils from '@utils';
-import {TourData} from '@data';
+import * as Utils from './../../utils';
+import {TourData} from './../../data';
 import {getTours} from '../../apis/tour'
 import {useTranslation} from 'react-i18next';
 import * as SecureStore from 'expo-secure-store';
 import { url } from '../../apis/a-MainVariables';
 
 export default function Tour({navigation}) {
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
+
+  const [languageSelected, setLanguageSelected] = useState(i18n.language);
   const scrollAnim = new Animated.Value(0);
   const offsetAnim = new Animated.Value(0);
   const clampedScroll = Animated.diffClamp(
@@ -32,7 +34,7 @@ export default function Tour({navigation}) {
   const [modeView, setModeView] = useState('block');
   const [tours, setTours] = useState(null);
 
-  getTours().then(res => {
+  getTours(languageSelected.toUpperCase()).then(res => {
     setTours(res.data);
   })
 
@@ -120,7 +122,7 @@ export default function Tour({navigation}) {
                   block
                   image={{uri: url + item.gallery[0].path}}
                   title={item.titles[0].title}
-                  price={"1400$"}
+                  price={item.packages[0].prices[0].price + "$"}
                   rate={4}
                   rateCount={"100 of 120"}
                   intro={item.intros[0].intro}

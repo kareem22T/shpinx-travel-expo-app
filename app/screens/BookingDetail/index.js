@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, ScrollView} from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text} from '@components';
+import {BaseStyle, BaseColor, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, Text} from './../../components';
 import {TabView, TabBar} from 'react-native-tab-view';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';

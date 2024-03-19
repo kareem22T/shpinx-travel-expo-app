@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Icon, Text} from '@components';
+import {Image, Icon, Text} from './../../components';
 import styles from './styles';
 import PropTypes from 'prop-types';
-import {BaseColor, useTheme} from '@config';
+import {BaseColor, useTheme} from './../../config';
 
 export default function ProfileDetail(props) {
   const {colors} = useTheme();
@@ -21,18 +21,12 @@ export default function ProfileDetail(props) {
     icon,
   } = props;
   return (
-    <TouchableOpacity
+    <View
       style={[styles.contain, style]}
-      onPress={onPress}
       activeOpacity={0.9}>
       <View style={[styles.contentLeft, styleLeft]}>
         <View>
           <Image source={image} style={[styles.thumb, styleThumb]} />
-          <View style={[styles.point, {backgroundColor: colors.primaryLight}]}>
-            <Text overline whiteColor semibold>
-              {point}
-            </Text>
-          </View>
         </View>
         <View style={{alignItems: 'flex-start'}}>
           <Text headline semibold numberOfLines={1}>
@@ -47,22 +41,9 @@ export default function ProfileDetail(props) {
             numberOfLines={1}>
             {textSecond}
           </Text>
-          <Text footnote grayColor numberOfLines={1}>
-            {textThird}
-          </Text>
         </View>
       </View>
-      {icon && (
-        <View style={[styles.contentRight, styleRight]}>
-          <Icon
-            name="angle-right"
-            size={18}
-            color={BaseColor.grayColor}
-            enableRTL={true}
-          />
-        </View>
-      )}
-    </TouchableOpacity>
+    </View>
   );
 }
 

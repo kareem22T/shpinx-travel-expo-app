@@ -5,27 +5,27 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import {useTheme, BaseSetting} from '@config';
+import {useTheme, BaseSetting} from './../config';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import {useSelector} from 'react-redux';
 
 /* Main Stack Navigator */
-import Main from 'app/navigation/main';
+import Main from './main';
 /* Modal Screen only affect iOS */
-import Loading from '@screens/Loading';
-import Filter from '@screens/Filter';
-import FlightFilter from '@screens/FlightFilter';
-import BusFilter from '@screens/BusFilter';
-import Search from '@screens/Search';
-import SearchHistory from '@screens/SearchHistory';
-import PreviewImage from '@screens/PreviewImage';
-import SelectBus from '@screens/SelectBus';
-import SelectCruise from '@screens/SelectCruise';
-import CruiseFilter from '@screens/CruiseFilter';
-import EventFilter from '@screens/EventFilter';
-import SelectDarkOption from '@screens/SelectDarkOption';
-import SelectFontOption from '@screens/SelectFontOption';
+import Loading from './../screens/Loading';
+import Filter from './../screens/Filter';
+import FlightFilter from './../screens/FlightFilter';
+import BusFilter from './../screens/BusFilter';
+import Search from './../screens/Search';
+import SearchHistory from './../screens/SearchHistory';
+import PreviewImage from './../screens/PreviewImage';
+import SelectBus from './../screens/SelectBus';
+import SelectCruise from './../screens/SelectCruise';
+import CruiseFilter from './../screens/CruiseFilter';
+import EventFilter from './../screens/EventFilter';
+import SelectDarkOption from './../screens/SelectDarkOption';
+import SelectFontOption from './../screens/SelectFontOption';
 
 const RootStack = createStackNavigator();
 

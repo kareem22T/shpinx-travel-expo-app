@@ -8,7 +8,7 @@ import {
   InteractionManager,
   TouchableOpacity,
 } from 'react-native';
-import {BaseColor, Images, useTheme} from '@config';
+import {BaseColor, Images, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -22,13 +22,13 @@ import {
   HelpBlock,
   StarRating,
   TextInput,
-} from '@components';
+} from './../../components';
 import {TabView, TabBar} from 'react-native-tab-view';
-import * as Utils from '@utils';
+import * as Utils from './../../utils';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
-import {HelpBlockData, ReviewData} from '@data';
+import {HelpBlockData, ReviewData} from './../../data';
 
 export default function CruiseDetail({navigation}) {
   const {t} = useTranslation();

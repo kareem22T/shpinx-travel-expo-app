@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, ScrollView} from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import Modal from 'react-native-modal';
 import Swiper from 'react-native-swiper';
 import {
@@ -14,10 +14,10 @@ import {
   Tag,
   HelpBlock,
   StarRating,
-} from '@components';
+} from './../../components';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
-import {UserData, HelpBlockData} from '@data';
+import {UserData, HelpBlockData} from './../../data';
 
 export default function CarDetail({navigation}) {
   const {colors} = useTheme();

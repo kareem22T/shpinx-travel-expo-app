@@ -7,8 +7,8 @@ import {
   StarRating,
   Tag,
   ProfileGroupSmall,
-} from '@components';
-import {BaseColor, Images, useTheme} from '@config';
+} from './../../components';
+import {BaseColor, Images, useTheme} from './../../config';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';

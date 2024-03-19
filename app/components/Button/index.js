@@ -1,8 +1,8 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, ActivityIndicator} from 'react-native';
-import {BaseColor, useTheme} from '@config';
+import {BaseColor, useTheme} from './../../config';
 import PropTypes from 'prop-types';
-import {Text} from '@components';
+import {Text} from './../../components';
 import styles from './styles';
 
 export default function Button(props) {

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, View} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import {BaseStyle, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -8,9 +8,9 @@ import {
   Text,
   RateDetail,
   CommentItem,
-} from '@components';
+} from './../../components';
 import styles from './styles';
-import {ReviewData} from '@data';
+import {ReviewData} from './../../data';
 import {useTranslation} from 'react-i18next';
 
 export default function Review({navigation}) {

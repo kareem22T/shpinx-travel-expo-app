@@ -7,11 +7,11 @@ import {
   Switch,
   TouchableOpacity,
 } from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Tag, HotelItem} from '@components';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, Text, Tag, HotelItem} from './../../components';
 import {TabView, TabBar} from 'react-native-tab-view';
-import {UserData, HotelData} from '@data';
-import * as Utils from '@utils';
+import {UserData, HotelData} from './../../data';
+import * as Utils from './../../utils';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 

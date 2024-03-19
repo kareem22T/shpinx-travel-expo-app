@@ -1,8 +1,8 @@
 import React from 'react';
 import {ScrollView, ImageBackground} from 'react-native';
-import {Text, Button, SafeAreaView, Header, Icon} from '@components';
+import {Text, Button, SafeAreaView, Header, Icon} from './../../components';
 import styles from './styles';
-import {Images, useTheme} from '@config';
+import {Images, useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
 
 export default function OverViewCar({navigation}) {

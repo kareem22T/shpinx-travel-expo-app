@@ -18,23 +18,50 @@
       "**/*"
     ],
     "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyBzXxR0ge7r2dT4BIVCl9uSLHKT9em6wzQ"
+      },
       "supportsTablet": true,
-      "bundleIdentifier": "com.huynh.felixpro"
+      "bundleIdentifier": "com.sphinx.travel"
     },
     "android": {
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBzXxR0ge7r2dT4BIVCl9uSLHKT9em6wzQ"
+        }
+      },
+      "package": "com.sphinx.travel"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "91940389-a185-4e20-88ee-1971f325f393"
+        "projectId": "216ea940-c243-4fb4-b7d9-6f9fbe5a9be6"
       }
     },
-    "owner": "sphinxtravel"
-  }
+    "owner": "sphinxtravel",
+    "plugins": [
+      "expo-font",
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow location access to know your nearst IOT and point sellers"
+        }
+      ]
+    ]
+  },
+  "scheme": "sphinx-travel"
 }

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {View, ScrollView} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, PackageItem} from '@components';
+import {BaseStyle, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, PackageItem} from './../../components';
 import styles from './styles';
-import {PackageData} from '@data';
+import {PackageData} from './../../data';
 import {useTranslation} from 'react-i18next';
 
 export default function PricingTable({navigation}) {

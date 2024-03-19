@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList, RefreshControl, View, TouchableOpacity} from 'react-native';
-import {BaseStyle, Images, useTheme} from '@config';
-import {Image, Header, SafeAreaView, Icon, Text} from '@components';
+import {BaseStyle, Images, useTheme} from './../../config';
+import {Image, Header, SafeAreaView, Icon, Text} from './../../components';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 

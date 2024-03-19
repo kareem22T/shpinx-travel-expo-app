@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Image, Text} from '@components';
+import {Image, Text} from './../../components';
 import styles from './styles';
-import {useTheme} from '@config';
+import {useTheme} from './../../config';
 import PropTypes from 'prop-types';
 
 export default function PostListItem(props) {
@@ -14,7 +14,7 @@ export default function PostListItem(props) {
       style={[styles.contain, style]}
       onPress={onPress}
       activeOpacity={0.9}>
-      <Image source={image} style={styles.imageBanner} />
+      <Image source={{uri: image}} style={styles.imageBanner} />
       <View style={[styles.content, {backgroundColor: cardColor}]}>
         {title != '' && (
           <View style={styles.contentTitle}>

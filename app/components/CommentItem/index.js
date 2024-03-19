@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Images, BaseColor, useTheme} from '@config';
-import {Text, Image, StarRating} from '@components';
+import {Images, BaseColor, useTheme} from './../../config';
+import {Text, Image, StarRating} from './../../components';
 import PropTypes from 'prop-types';
 import styles from './styles';
 

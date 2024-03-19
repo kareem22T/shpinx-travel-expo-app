@@ -81,7 +81,7 @@ export const languageFromCode = code => {
     case 'vi':
       return 'Vietnamese';
     case 'ar':
-      return 'Arabic';
+      return 'العربية';
     case 'da':
       return 'Danish';
     case 'de':

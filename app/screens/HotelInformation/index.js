@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, ScrollView, FlatList, TouchableOpacity} from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import {
   Image,
   Header,
@@ -13,10 +13,10 @@ import {
   Tag,
   PostListItem,
   Button,
-} from '@components';
+} from './../../components';
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
-import {UserData} from '@data';
+import {UserData} from './../../data';
 import { url } from '../../apis/a-MainVariables';
 
 export default function HotelInformation({navigation, route}) {
@@ -133,7 +133,7 @@ export default function HotelInformation({navigation, route}) {
           {/* Information */}
           <View style={{paddingHorizontal: 20}}>
             <Text title2 semibold style={{marginTop: 10}}>
-              Standard Twin Room
+              {route.params.room.names[0].name}
             </Text>
             <View
               style={{

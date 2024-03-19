@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
-import {Header, SafeAreaView, Icon, Text, Button} from '@components';
+import {BaseStyle, BaseColor, useTheme} from './../../config';
+import {Header, SafeAreaView, Icon, Text, Button} from './../../components';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
 
@@ -111,7 +111,7 @@ export default function BusSelectSeat({navigation}) {
     <View style={{flex: 1}}>
       <Header
         title={t('select_seats')}
-        subTitle="01 Aug 2019, Felix Travel"
+        subTitle="01 Aug 2019, Sphinx Travel"
         renderLeft={() => {
           return (
             <Icon

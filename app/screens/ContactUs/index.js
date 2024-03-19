@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
-import {BaseStyle, useTheme} from '@config';
+import {BaseStyle, useTheme} from './../../config';
 import {useTranslation} from 'react-i18next';
-import {Header, SafeAreaView, Icon, Text, Button, TextInput} from '@components';
+import {Header, SafeAreaView, Icon, Text, Button, TextInput} from './../../components';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import styles from './styles';
 

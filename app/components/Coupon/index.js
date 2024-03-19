@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Text} from '@components';
+import {Text} from './../../components';
 import PropTypes from 'prop-types';
-import {useTheme} from '@config';
+import {useTheme} from './../../config';
 import styles from './styles';
 
 export default function Coupon(props) {

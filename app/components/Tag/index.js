@@ -1,8 +1,8 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet} from 'react-native';
-import {useTheme} from '@config';
+import {useTheme} from './../../config';
 import PropTypes from 'prop-types';
-import Text from '@components/Text';
+import Text from './../../components/Text';
 import styles from './styles';
 
 export default function Tag(props) {

@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
-import {BaseStyle, BaseColor, Images, useTheme} from '@config';
+import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -15,8 +15,8 @@ import {
   TextInput,
   EventCard,
   EventItem,
-} from '@components';
-import {EventListData} from '@data';
+} from './../../components';
+import {EventListData} from './../../data';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
 

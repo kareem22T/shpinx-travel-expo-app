@@ -9,13 +9,13 @@ import {
   Button,
   SafeAreaView,
   EventCard,
-} from '@components';
-import {BaseStyle, Images, useTheme} from '@config';
-import * as Utils from '@utils';
+} from './../../components';
+import {BaseStyle, Images, useTheme} from './../../config';
+import * as Utils from './../../utils';
 import styles from './styles';
-import {PromotionData, TourData, HotelData} from '@data';
+import {PromotionData, TourData, HotelData} from './../../data';
 import {useTranslation} from 'react-i18next';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 export default function Home({navigation}) {
   const {t} = useTranslation();
   const {colors} = useTheme();
@@ -87,7 +87,7 @@ export default function Home({navigation}) {
                 style={[styles.iconContent, {backgroundColor: colors.card}]}>
                 <Icon name={item.icon} size={18} color={colors.primary} solid />
               </View>
-              <Text footnote grayColor numberOfLines={1}>
+              <Text footnote grayColor numberOfLines={1} style={{marginTop: 8}}>
                 {t(item.name)}
               </Text>
             </TouchableOpacity>
@@ -222,8 +222,23 @@ export default function Home({navigation}) {
                   </Card>
                 )}
               />
+              <TouchableOpacity onPress={() => navigation.push("Resturant")} style={{width: "100%", borderRadius: 20, overflow: 'hidden', paddingLeft: 20, paddingRight: 20, paddingTop: 30}}>
+                <View style={{
+                  width: "100%",
+                  height: 150,
+                  backgroundColor: "#1976bc",
+                  borderRadius: 10,
+                  overflow: 'hidden',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 10
+                }}>
+                  <MaterialCommunityIcons name="silverware-fork-knife" size={50} color="white" />
+                  <Text style={{fontWeight: 700, fontSize: 20, color: "white"}}>{t("show_nerby_resturants")}</Text>
+                </View>
+              </TouchableOpacity>
               {/* Event*/}
-              <View style={styles.titleView}>
+              {/* <View style={styles.titleView}>
                 <Text title3 semibold>
                   {t('comming_event')}
                 </Text>
@@ -252,7 +267,7 @@ export default function Home({navigation}) {
                     />
                   )}
                 />
-              </View>
+              </View> */}
               {/* Promotion */}
               <View style={styles.titleView}>
                 <Text title3 semibold>

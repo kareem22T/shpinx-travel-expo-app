@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, FlatList, Switch, ScrollView} from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
+import {BaseStyle, BaseColor, useTheme} from './../../config';
 import {
   Header,
   SafeAreaView,
@@ -9,9 +9,9 @@ import {
   BookingTime,
   Tag,
   RangeSlider,
-} from '@components';
+} from './../../components';
 import {useTranslation} from 'react-i18next';
-import * as Utils from '@utils';
+import * as Utils from './../../utils';
 import styles from './styles';
 
 export default function FlightFilter({navigation}) {

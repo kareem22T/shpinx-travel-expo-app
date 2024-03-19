@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
-import {BaseStyle, BaseColor, useTheme} from '@config';
-import {Header, SafeAreaView, TextInput, Icon, Text, Button} from '@components';
+import {BaseStyle, BaseColor, useTheme} from './../../config';
+import {Header, SafeAreaView, TextInput, Icon, Text, Button} from './../../components';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
 
