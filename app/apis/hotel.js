@@ -10,6 +10,13 @@ export function getHotels(lang) {
         `${url}/get-hotels?lang=${lang}`
     );
 }
+export function getCottages(lang) {
+    //axios call
+    // console.log(token);
+    return axios.get(
+        `${url}/get-cottages?lang=${lang}`
+    );
+}
 // Get Hotels
 export function getHotelRestaurante(id, lang) {
     //axios call

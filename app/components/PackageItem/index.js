@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useTransition } from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {Text, Icon, Button} from './../../components';
 import {useTheme} from './../../config';
 import styles from './styles';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 export default function PackageItem(props) {
   const {colors} = useTheme();
+  const {t} = useTranslation();
 
   const {
     icon,
@@ -50,7 +52,7 @@ export default function PackageItem(props) {
           {description}
         </Text>
         <Button full style={{marginTop: 10}} onPress={onPress}>
-          Book Now
+          {t('book_now')}
         </Button>
       </View>
     );

@@ -4,7 +4,7 @@ import {BaseColor} from './../../config';
 
 export default StyleSheet.create({
   listImage: {
-    height: Utils.scaleWithPixel(140),
+    height: Utils.scaleWithPixel(130),
     width: Utils.scaleWithPixel(120),
     borderRadius: 8,
   },

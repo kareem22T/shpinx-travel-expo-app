@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   RefreshControl,
+  ActivityIndicator
 } from 'react-native';
 import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import {
@@ -30,6 +31,9 @@ import styles from './styles';
 import {UserData, ReviewData, TourData, PackageData} from './../../data';
 import {useTranslation} from 'react-i18next';
 import { url } from '../../apis/a-MainVariables';
+import axios from 'axios';
+import TimerMixin from 'react-timer-mixin';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function TourDetail({navigation, route}) {
   const {colors} = useTheme();
@@ -79,6 +83,9 @@ export default function TourDetail({navigation, route}) {
       )}
     />
   );
+  const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([])
 
   const tour = Tour;
   // Render correct screen container when tab is activated
@@ -95,8 +102,95 @@ export default function TourDetail({navigation, route}) {
     }
   };
 
+  const onLogOut = async () => {
+    await SecureStore.setItemAsync("userData", "")
+    await SecureStore.setItemAsync("user_token", "")
+    setLoading(true);
+    dispatch(AuthActions.authentication(false, response => {}));
+  };
+
+  const getUser = async (token, notificationToken) => {
+    setErrors([])
+    setLoading(true)
+    try {
+        const response = await axios.post(`${url}/get-user`, {
+            notification_token: notificationToken,
+        },
+            {
+                headers: {
+                    'AUTHORIZATION': `Bearer ${token}`
+                }
+            },);
+
+        if (response.data.status === true) {
+            setLoading(false);
+            setErrors([]);
+            setUser(response.data.data.user);
+        } else {
+            setLoading(false);
+            setErrors(response.data.errors);
+            onLogOut()
+            TimerMixin.setTimeout(() => {
+                setErrors([]);
+            }, 2000);
+        }
+    } catch (error) {
+        onLogOut()
+        setLoading(false);
+        setErrors(["Server error, try again later."]);
+        console.error(error);
+    }
+}
+
+  const handleNavigateToBooking = async (pack = null) => {
+    setLoading(true)
+    let token = await SecureStore.getItemAsync("user_token")
+    if (token) {
+      getUser(token, null).then(() => {
+        if (user) {
+          navigation.navigate('PreviewBooking', {type: "tour", tour: tour, selectedPackage: pack})
+        }
+      })
+    } else {
+      setLoading(false)
+      setErrors(["You have to sign in first"]);
+      TimerMixin.setTimeout(() => {
+        navigation.navigate('Walkthrough')
+        setErrors([]);
+      }, 1000);
+    }
+  
+  }
+
   return (
     <View style={{flex: 1}}>
+            <Text style={{
+        position: 'absolute', top: 50, right: 20, color: "#fff",
+        padding: 1 * 16,
+        marginLeft: 10,
+        fontSize: 1 * 16,
+        backgroundColor: '#e41749',
+        fontFamily: 'Outfit_600SemiBold',
+        borderRadius: 1.25 * 16,
+        zIndex: 9999999999,
+        display: errors.length ? 'flex' : 'none'
+      }}>{errors.length ? errors[0] : ''}</Text>
+      {loading && (
+          <View style={{
+              width: '100%',
+              height: '100%',
+              zIndex: 336,
+              justifyContent: 'center',
+              alignContent: 'center',
+              marginTop: 22,
+              backgroundColor: 'rgba(0, 0, 0, .5)',
+              position: 'absolute',
+              top: 10,
+              left: 0,
+          }}>
+              <ActivityIndicator size="200px" color={colors.primary} />
+          </View>
+      )}
       <Header
         title={t('travel_agency')}
         renderLeft={() => {
@@ -183,7 +277,7 @@ export default function TourDetail({navigation, route}) {
                 ${route.params.tour.packages[0].prices[0].price}
               </Text>
             </View>
-            <Button onPress={() => navigation.navigate('PreviewBooking')}>
+            <Button onPress={() => handleNavigateToBooking()}>
               {t('book_now')}
             </Button>
           </View>
@@ -425,10 +519,101 @@ function PackageTab({navigation, tour}) {
   const [packageItem] = useState(PackageData[0]);
   const [packageItem2] = useState(PackageData[2]);
   console.log(tour.packages);
+  const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([])
+
+  const onLogOut = async () => {
+    await SecureStore.setItemAsync("userData", "")
+    await SecureStore.setItemAsync("user_token", "")
+    setLoading(true);
+    dispatch(AuthActions.authentication(false, response => {}));
+  };
+
+  const getUser = async (token, notificationToken) => {
+    setErrors([])
+    setLoading(true)
+    try {
+        const response = await axios.post(`${url}/get-user`, {
+            notification_token: notificationToken,
+        },
+            {
+                headers: {
+                    'AUTHORIZATION': `Bearer ${token}`
+                }
+            },);
+
+        if (response.data.status === true) {
+            setLoading(false);
+            setErrors([]);
+            setUser(response.data.data.user);
+        } else {
+            setLoading(false);
+            setErrors(response.data.errors);
+            onLogOut()
+            TimerMixin.setTimeout(() => {
+                setErrors([]);
+            }, 2000);
+        }
+    } catch (error) {
+        onLogOut()
+        setLoading(false);
+        setErrors(["Server error, try again later."]);
+        console.error(error);
+    }
+}
+
+  const handleNavigateToBooking = async (pack = null) => {
+    setLoading(true)
+    let token = await SecureStore.getItemAsync("user_token")
+    if (token) {
+      getUser(token, null).then(() => {
+        if (user) {
+          navigation.navigate('PreviewBooking', {type: "tour", tour: tour, selectedPackage: pack})
+        }
+      })
+    } else {
+      setLoading(false)
+      setErrors(["You have to sign in first"]);
+      TimerMixin.setTimeout(() => {
+        navigation.navigate('Walkthrough')
+        setErrors([]);
+      }, 1000);
+    }
   
+  }
+
   return (
     <ScrollView>
+
       <View style={{paddingHorizontal: 20}}>
+      <Text style={{
+        position: 'absolute', top: 50, right: 20, color: "#fff",
+        padding: 1 * 16,
+        marginLeft: 10,
+        fontSize: 1 * 16,
+        backgroundColor: '#e41749',
+        fontFamily: 'Outfit_600SemiBold',
+        borderRadius: 1.25 * 16,
+        zIndex: 9999999999,
+        display: errors.length ? 'flex' : 'none'
+      }}>{errors.length ? errors[0] : ''}</Text>
+      {loading && (
+          <View style={{
+              width: '100%',
+              height: '100%',
+              zIndex: 336,
+              justifyContent: 'center',
+              alignContent: 'center',
+              marginTop: 22,
+              // backgroundColor: 'rgba(0, 0, 0, .5)',
+              position: 'absolute',
+              top: 10,
+              left: 0,
+          }}>
+              <ActivityIndicator size="200px" color={Colors.primary} />
+          </View>
+      )}
         <Text body2 style={{marginTop: 20}}>
           {tour.intros[0].intro}
         </Text>
@@ -443,6 +628,7 @@ function PackageTab({navigation, tour}) {
               type={packageItem2.type}
               description={pack.descriptions[0].description}
               services={pack.points}
+              onPress={() => handleNavigateToBooking(pack)}
               />
             )))
           )

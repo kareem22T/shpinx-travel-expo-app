@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Text } from 'react-native-animatable';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useSelector} from 'react-redux';
@@ -19,6 +20,7 @@ import Tour from './../screens/Tour';
 import Car from './../screens/Car';
 import OverViewCar from './../screens/OverViewCar';
 import Hotel from './../screens/Hotel';
+import Cottage from './../screens/Cottage/cottages';
 import Resturant from './../screens/Resturants/Resturants';
 import Review from './../screens/Review';
 import Feedback from './../screens/Feedback';
@@ -84,6 +86,7 @@ const MainStack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
 export default function Main() {
+
   return (
     <MainStack.Navigator
       screenOptions={{
@@ -107,6 +110,7 @@ export default function Main() {
       <MainStack.Screen name="Car" component={Car} />
       <MainStack.Screen name="OverViewCar" component={OverViewCar} />
       <MainStack.Screen name="Hotel" component={Hotel} />
+      <MainStack.Screen name="Cottage" component={Cottage} />
       <MainStack.Screen name="Review" component={Review} />
       <MainStack.Screen name="Feedback" component={Feedback} />
       <MainStack.Screen name="Messages" component={Messages} />
@@ -175,11 +179,13 @@ export default function Main() {
 }
 
 function BottomTabNavigator() {
-  const {t} = useTranslation();
   const {colors} = useTheme();
   const font = useFont();
   const auth = useSelector(state => state.auth);
   const login = auth.login.success;
+  const {t, i18n} = useTranslation();
+
+  const [languageSelected, setLanguageSelected] = useState(i18n.language);
 
   return (
     <BottomTab.Navigator
@@ -202,6 +208,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({color}) => {
             return <Icon color={color} name="home" size={20} solid />;
           },
+          ...(languageSelected == 'ar' && {tabBarLabelStyle: {fontFamily: "Cairo_500Medium"}}), 
         }}
       />
       <BottomTab.Screen
@@ -212,6 +219,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({color}) => {
             return <Icon color={color} name="bookmark" size={20} solid />;
           },
+          ...(languageSelected == 'ar' && {tabBarLabelStyle: {fontFamily: "Cairo_500Medium"}}), 
         }}
       />
       <BottomTab.Screen
@@ -222,6 +230,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({color}) => {
             return <Icon solid color={color} name="envelope" size={20} />;
           },
+          ...(languageSelected == 'ar' && {tabBarLabelStyle: {fontFamily: "Cairo_500Medium"}}), 
         }}
       />
       {/* <BottomTab.Screen
@@ -242,6 +251,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({color}) => {
             return <Icon solid color={color} name="user-circle" size={20} />;
           },
+          ...(languageSelected == 'ar' && {tabBarLabelStyle: {fontFamily: "Cairo_500Medium"}}), 
         }}
       />
     </BottomTab.Navigator>

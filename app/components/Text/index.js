@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Text, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {Typography, FontWeight, BaseColor, useTheme, useFont} from './../../config';
+import {useTranslation} from 'react-i18next';
 
 const Roboto = {
   100: 'Thin',
@@ -46,6 +47,10 @@ const Merriweather = {
 };
 
 export default function Index(props) {
+  const {t, i18n} = useTranslation();
+
+  const [languageSelected, setLanguageSelected] = useState(i18n.language);
+  
   const {
     //props style
     header,
@@ -93,7 +98,7 @@ export default function Index(props) {
   const font = useFont();
 
   let textStyle = StyleSheet.flatten([
-    {fontFamily: font, textAlign},
+    {fontFamily: languageSelected == "ar" ? "Cairo_500Medium" : font, textAlign},
     header && Typography.header,
     title1 && Typography.title1,
     title2 && Typography.title2,

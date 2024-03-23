@@ -38,7 +38,7 @@ export default function Home({navigation}) {
     {
       icon: 'home',
       name: 'Cottage',
-      route: 'Hotel',
+      route: 'Cottage',
     },
   ]);
   const [relate] = useState([
@@ -234,7 +234,7 @@ export default function Home({navigation}) {
                   gap: 10
                 }}>
                   <MaterialCommunityIcons name="silverware-fork-knife" size={50} color="white" />
-                  <Text style={{fontWeight: 700, fontSize: 20, color: "white"}}>{t("show_nerby_resturants")}</Text>
+                  <Text title1 style={{fontSize: 20, color: "white"}}>{t("show_nerby_resturants")}</Text>
                 </View>
               </TouchableOpacity>
               {/* Event*/}

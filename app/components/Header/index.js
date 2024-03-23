@@ -54,11 +54,6 @@ export default function Header(props) {
           <Text headline numberOfLines={1}>
             {title}
           </Text>
-          {subTitle !== '' && (
-            <Text caption2 light>
-              {subTitle}
-            </Text>
-          )}
         </View>
         <View style={styles.right}>
           <TouchableOpacity

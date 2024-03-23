@@ -27,9 +27,6 @@ export default function HelpBlock(props) {
           <Text title3 accentColor>
             {phone}
           </Text>
-          <Text caption1 grayColor>
-            {email}
-          </Text>
         </View>
       </TouchableOpacity>
     </View>

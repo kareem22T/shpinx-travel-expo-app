@@ -72,21 +72,6 @@ export default function FilterSort(props) {
   };
 
   const {style, modeView, onFilter, onChangeView, labelCustom} = props;
-  const customAction =
-    modeView !== '' ? (
-      <TouchableOpacity onPress={onChangeView} style={styles.contentModeView}>
-        <Icon
-          name={iconModeView(modeView)}
-          size={16}
-          color={BaseColor.grayColor}
-          solid
-        />
-      </TouchableOpacity>
-    ) : (
-      <Text headline grayColor numberOfLines={1} style={styles.contentModeView}>
-        {labelCustom}
-      </Text>
-    );
 
   return (
     <View style={[styles.contain, {backgroundColor}, style]}>
@@ -141,7 +126,6 @@ export default function FilterSort(props) {
         </Text>
       </TouchableOpacity>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {customAction}
         <View style={styles.line} />
         <TouchableOpacity onPress={onFilter} style={styles.contentFilter}>
           <Icon name="filter" size={16} color={BaseColor.grayColor} solid />

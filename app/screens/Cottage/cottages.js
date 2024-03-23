@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import {FlatList, RefreshControl, View, Animated} from 'react-native';
 import {BaseStyle, useTheme} from './../../config';
 import {Header, SafeAreaView, Icon, HotelItem, FilterSort} from './../../components';
-import styles from './styles';
+import styles from '../Hotel/styles';
 import * as Utils from './../../utils';
 import {useTranslation} from 'react-i18next';
-import {getHotels} from '../../apis/hotel'
+import {getCottages} from '../../apis/hotel'
 import {url} from '../../apis/a-MainVariables'
 import {HotelData} from './../../data';
 
-export default function Hotel({navigation}) {
+export default function Cottage({navigation}) {
   const {colors} = useTheme();
   const {t, i18n} = useTranslation();
 
@@ -33,7 +33,7 @@ export default function Hotel({navigation}) {
     40,
   );
 
-  getHotels(languageSelected.toUpperCase()).then(res => {
+  getCottages(languageSelected.toUpperCase()).then(res => {
     setHotels(res.data);
   })
 
@@ -366,7 +366,7 @@ export default function Hotel({navigation}) {
   return (
     <View style={{flex: 1}}>
       <Header
-        title={t('hotels')}
+        title={t('Cottage')}
         renderLeft={() => {
           return (
             <Icon

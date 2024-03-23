@@ -6,8 +6,8 @@ import {
   Image,
   Animated,
   TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
-import * as Location from 'expo-location';
 import {BaseColor, Images, useTheme} from './../../config';
 import {
   Header,
@@ -20,14 +20,16 @@ import {
   Button,
   RoomType,
 } from './../../components';
+import * as SecureStore from 'expo-secure-store';
 import * as Utils from './../../utils';
+import axios from 'axios';
+import TimerMixin from 'react-timer-mixin';
 import {InteractionManager} from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import styles from './styles';
 import {HelpBlockData} from './../../data';
 import {useTranslation} from 'react-i18next';
 import { url } from '../../apis/a-MainVariables';
-import axios from 'axios';
 import { getTour } from '../../apis/tour';
 import { getHotelRestaurante } from '../../apis/hotel';
 import Slider from '../../components/Slider/component/Slider';
@@ -37,10 +39,14 @@ export default function HotelDetail({navigation, route}) {
   const {t, i18n} = useTranslation();
 
   const [languageSelected, setLanguageSelected] = useState(i18n.language);
+  const [errors, setErrors] = useState([]);
 
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const [renderMapView, setRenderMapView] = useState(false);
-  const [restaurants, setResturants] = useState(null)
+  const [restaurants, setResturants] = useState([])
+  const [user, setUser] = useState([])
+  const [loading, setLoading] = useState(false);
+
   const [region] = useState({
     latitude: parseFloat(route.params.hotel.lat),
     longitude: parseFloat(route.params.hotel.lng),
@@ -111,6 +117,66 @@ export default function HotelDetail({navigation, route}) {
     })
   
   }
+  const onLogOut = async () => {
+    await SecureStore.setItemAsync("userData", "")
+    await SecureStore.setItemAsync("user_token", "")
+    setLoading(true);
+    dispatch(AuthActions.authentication(false, response => {}));
+  };
+
+
+  const getUser = async (token, notificationToken) => {
+    setErrors([])
+    setLoading(true)
+    try {
+        const response = await axios.post(`${url}/get-user`, {
+            notification_token: notificationToken,
+        },
+            {
+                headers: {
+                    'AUTHORIZATION': `Bearer ${token}`
+                }
+            },);
+
+        if (response.data.status === true) {
+            setLoading(false);
+            setErrors([]);
+            setUser(response.data.data.user);
+        } else {
+            setLoading(false);
+            setErrors(response.data.errors);
+            onLogOut()
+            TimerMixin.setTimeout(() => {
+                setErrors([]);
+            }, 2000);
+        }
+    } catch (error) {
+        onLogOut()
+        setLoading(false);
+        setErrors(["Server error, try again later."]);
+        console.error(error);
+    }
+}
+
+  const handleNavigateToBooking = async () => {
+    setLoading(true)
+    let token = await SecureStore.getItemAsync("user_token")
+    if (token) {
+      getUser(token, null).then(() => {
+        if (user) {
+          navigation.navigate('PreviewBooking', {type: "hotel", hotel: route.params.hotel})
+        }
+      })
+    } else {
+      setLoading(false)
+      setErrors(["You have to sign in first"]);
+      TimerMixin.setTimeout(() => {
+        navigation.navigate('Walkthrough')
+        setErrors([]);
+      }, 1000);
+    }
+  
+  }
 
   useEffect(() => {
     getHotelRestaurante(route.params.hotel.id, languageSelected).then(res => {
@@ -126,6 +192,33 @@ export default function HotelDetail({navigation, route}) {
 
   return (
     <View style={{flex: 1}}>
+      <Text style={{
+          position: 'absolute', top: 50, right: 20, color: "#fff",
+          padding: 1 * 16,
+          marginLeft: 10,
+          fontSize: 1 * 16,
+          backgroundColor: '#e41749',
+          fontFamily: 'Outfit_600SemiBold',
+          borderRadius: 1.25 * 16,
+          zIndex: 9999999999,
+          display: errors.length ? 'flex' : 'none'
+        }}>{errors.length ? errors[0] : ''}</Text>
+        {loading && (
+            <View style={{
+                width: '100%',
+                height: '100%',
+                zIndex: 336,
+                justifyContent: 'center',
+                alignContent: 'center',
+                marginTop: 22,
+                backgroundColor: 'rgba(0, 0, 0, .5)',
+                position: 'absolute',
+                top: 10,
+                left: 0,
+            }}>
+                <ActivityIndicator size="200px" color={colors.primary} />
+            </View>
+        )}
       {
       route.params.hotel && (
         <Animated.Image
@@ -421,19 +514,12 @@ export default function HotelDetail({navigation, route}) {
                   <RoomType
                     image={{uri: url + item.gallery[0].path}}
                     name={item.names[0].name}
-                    price={"$" + item.prices[1].price }
-                    available={"Hurry Up! This is your last room..."}
-                    services={
-                      [
-                        {icon: 'wifi', name: 'Free Wifi'},
-                        {icon: 'shower', name: 'Shower'},
-                        {icon: 'users', name: 'Max 3 aduts'},
-                        {icon: 'subway', name: 'Nearby Subway'}
-                      ]          
-                    }
+                    description={item.descriptions[0].description}
+                    price={item.prices[0].price + " USD"}
+                    services={item.features}
                     style={{marginTop: 10}}
                     onPress={() => {
-                      navigation.navigate('HotelInformation', {room: item});
+                      navigation.navigate('HotelInformation', {room: item, hotel: route.params.hotel});
                     }}
                   />
                 )}
@@ -478,7 +564,7 @@ export default function HotelDetail({navigation, route}) {
             </View>
             {/* Nearby Restaurants */}
             <View
-              style={[styles.blockView, {borderBottomColor: colors.border, paddingBottom: 0, justifyContent: "flex-start", alignItems: "flex-start"}]}>
+              style={[styles.blockView, {borderBottomColor: colors.border, paddingBottom: 0, justifyContent: "flex-start", alignItems: "flex-start"}, !restaurants.length && {display: "none"}]}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -506,7 +592,6 @@ export default function HotelDetail({navigation, route}) {
                 title={helpBlock.title}
                 description={helpBlock.description}
                 phone={route.params.hotel.phone}
-                email={helpBlock.email}
                 style={{marginRight: 10, marginLeft: 10, marginTop: 10}}
                 onPress={() => {
                   navigation.navigate('ContactUs');
@@ -544,13 +629,13 @@ export default function HotelDetail({navigation, route}) {
               {t('price')}
             </Text>
             <Text title3 primaryColor semibold>
-              $200
+              {route.params.hotel.rooms.length && (route.params.hotel.rooms[0].prices[0].price + " USD")}
             </Text>
             <Text caption1 semibold style={{marginTop: 5}}>
               {t('avg_night')}
             </Text>
           </View>
-          <Button onPress={() => navigation.navigate('PreviewBooking')}>
+          <Button onPress={() => handleNavigateToBooking()}>
             {t('book_now')}
           </Button>
         </View>

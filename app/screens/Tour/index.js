@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {FlatList, RefreshControl, View, Animated} from 'react-native';
+import {FlatList, RefreshControl, View, Animated, Text, ActivityIndicator} from 'react-native';
 import {BaseStyle, useTheme} from './../../config';
 import {Header, SafeAreaView, Icon, TourItem, FilterSort} from './../../components';
 import styles from './styles';
@@ -9,6 +9,8 @@ import {getTours} from '../../apis/tour'
 import {useTranslation} from 'react-i18next';
 import * as SecureStore from 'expo-secure-store';
 import { url } from '../../apis/a-MainVariables';
+import TimerMixin from 'react-timer-mixin';
+import axios from 'axios';
 
 export default function Tour({navigation}) {
   const {t, i18n} = useTranslation();
@@ -72,6 +74,70 @@ export default function Tour({navigation}) {
         break;
     }
   };
+  const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([])
+
+
+  const onLogOut = async () => {
+    await SecureStore.setItemAsync("userData", "")
+    await SecureStore.setItemAsync("user_token", "")
+    setLoading(true);
+    dispatch(AuthActions.authentication(false, response => {}));
+  };
+
+  const getUser = async (token, notificationToken) => {
+    setErrors([])
+    setLoading(true)
+    try {
+        const response = await axios.post(`${url}/get-user`, {
+            notification_token: notificationToken,
+        },
+            {
+                headers: {
+                    'AUTHORIZATION': `Bearer ${token}`
+                }
+            },);
+
+        if (response.data.status === true) {
+            setLoading(false);
+            setErrors([]);
+            setUser(response.data.data.user);
+        } else {
+            setLoading(false);
+            setErrors(response.data.errors);
+            onLogOut()
+            TimerMixin.setTimeout(() => {
+                setErrors([]);
+            }, 2000);
+        }
+    } catch (error) {
+        onLogOut()
+        setLoading(false);
+        setErrors(["Server error, try again later."]);
+        console.error(error);
+    }
+}
+
+  const handleNavigateToBooking = async (item) => {
+    setLoading(true)
+    let token = await SecureStore.getItemAsync("user_token")
+    if (token) {
+      getUser(token, null).then(() => {
+        if (user) {
+          navigation.navigate('PreviewBooking', {type: "tour", tour: item})
+        }
+      })
+    } else {
+      setLoading(false)
+      setErrors(["You have to sign in first"]);
+      TimerMixin.setTimeout(() => {
+        navigation.navigate('Walkthrough')
+        setErrors([]);
+      }, 1000);
+    }
+  
+  }
 
   /**
    * @description Render container view
@@ -89,6 +155,33 @@ export default function Tour({navigation}) {
       case 'block':
         return (
           <View style={{flex: 1}}>
+            <Text style={{
+              position: 'absolute', top: 50, right: 20, color: "#fff",
+              padding: 1 * 16,
+              marginLeft: 10,
+              fontSize: 1 * 16,
+              backgroundColor: '#e41749',
+              fontFamily: 'Outfit_600SemiBold',
+              borderRadius: 1.25 * 16,
+              zIndex: 9999999999,
+              display: errors.length ? 'flex' : 'none'
+            }}>{errors.length ? errors[0] : ''}</Text>
+            {loading && (
+                <View style={{
+                    width: '100%',
+                    height: '100%',
+                    zIndex: 336,
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    marginTop: 22,
+                    backgroundColor: 'rgba(0, 0, 0, .5)',
+                    position: 'absolute',
+                    top: 10,
+                    left: 0,
+                }}>
+                    <ActivityIndicator size="200px" color={colors.primary} />
+                </View>
+            )}
             <Animated.FlatList
               contentContainerStyle={{
                 paddingTop: 50,
@@ -133,7 +226,7 @@ export default function Tour({navigation}) {
                     navigation.navigate('TourDetail', {tour: item})
                   }}
                   onPressBookNow={() => {
-                    navigation.navigate('PreviewBooking');
+                    handleNavigateToBooking(item);
                   }}
                 />
               )}

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, ScrollView, FlatList, TouchableOpacity} from 'react-native';
+import {View, ScrollView, FlatList, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {BaseStyle, BaseColor, Images, useTheme} from './../../config';
 import {
   Image,
@@ -17,11 +17,17 @@ import {
 import styles from './styles';
 import {useTranslation} from 'react-i18next';
 import {UserData} from './../../data';
+import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
+import TimerMixin from 'react-timer-mixin';
 import { url } from '../../apis/a-MainVariables';
 
 export default function HotelInformation({navigation, route}) {
   const {colors} = useTheme();
   const {t} = useTranslation();
+  const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([])
 
   const [userData] = useState(UserData[0]);
   const [service] = useState([
@@ -36,6 +42,66 @@ export default function HotelInformation({navigation, route}) {
     {id: '9', name: 'tv'},
     {id: '10', name: 'futbol'},
   ]);
+
+  const onLogOut = async () => {
+    await SecureStore.setItemAsync("userData", "")
+    await SecureStore.setItemAsync("user_token", "")
+    setLoading(true);
+    dispatch(AuthActions.authentication(false, response => {}));
+  };
+
+  const getUser = async (token, notificationToken) => {
+    setErrors([])
+    setLoading(true)
+    try {
+        const response = await axios.post(`${url}/get-user`, {
+            notification_token: notificationToken,
+        },
+            {
+                headers: {
+                    'AUTHORIZATION': `Bearer ${token}`
+                }
+            },);
+
+        if (response.data.status === true) {
+            setLoading(false);
+            setErrors([]);
+            setUser(response.data.data.user);
+        } else {
+            setLoading(false);
+            setErrors(response.data.errors);
+            onLogOut()
+            TimerMixin.setTimeout(() => {
+                setErrors([]);
+            }, 2000);
+        }
+    } catch (error) {
+        onLogOut()
+        setLoading(false);
+        setErrors(["Server error, try again later."]);
+        console.error(error);
+    }
+}
+
+  const handleNavigateToBooking = async () => {
+    setLoading(true)
+    let token = await SecureStore.getItemAsync("user_token")
+    if (token) {
+      getUser(token, null).then(() => {
+        if (user) {
+          navigation.navigate('PreviewBooking', {type: "hotel", hotel: route.params.hotel, selectedRoom: route.params.room})
+        }
+      })
+    } else {
+      setLoading(false)
+      setErrors(["You have to sign in first"]);
+      TimerMixin.setTimeout(() => {
+        navigation.navigate('Walkthrough')
+        setErrors([]);
+      }, 1000);
+    }
+  
+  }
 
   return (
     <View style={{flex: 1}}>
@@ -55,6 +121,33 @@ export default function HotelInformation({navigation, route}) {
           navigation.goBack();
         }}
       />
+      <Text style={{
+        position: 'absolute', top: 50, right: 20, color: "#fff",
+        padding: 1 * 16,
+        marginLeft: 10,
+        fontSize: 1 * 16,
+        backgroundColor: '#e41749',
+        fontFamily: 'Outfit_600SemiBold',
+        borderRadius: 1.25 * 16,
+        zIndex: 9999999999,
+        display: errors.length ? 'flex' : 'none'
+      }}>{errors.length ? errors[0] : ''}</Text>
+      {loading && (
+          <View style={{
+              width: '100%',
+              height: '100%',
+              zIndex: 336,
+              justifyContent: 'center',
+              alignContent: 'center',
+              marginTop: 22,
+              backgroundColor: 'rgba(0, 0, 0, .5)',
+              position: 'absolute',
+              top: 10,
+              left: 0,
+          }}>
+              <ActivityIndicator size="200px" color={colors.primary} />
+          </View>
+      )}
       <SafeAreaView
         style={BaseStyle.safeAreaView}
         edges={['right', 'left', 'bottom']}>
@@ -155,8 +248,8 @@ export default function HotelInformation({navigation, route}) {
               {t('facilities_of_hotel')}
             </Text>
             <FlatList
-              numColumns={5}
-              data={service}
+              numColumns={4}
+              data={route.params.room.features}
               keyExtractor={(item, index) => item.id}
               renderItem={({item}) => (
                 <View
@@ -164,9 +257,9 @@ export default function HotelInformation({navigation, route}) {
                     padding: 10,
                     alignItems: 'center',
                   }}>
-                  <Icon name={item.name} size={24} color={colors.accent} />
+                  <Image source={{uri: url + item.icon_path}} style={{width: 35, height: 35, resizeMode: "contain"}} /> 
                   <Text overline grayColor>
-                    Free Wifi
+                    {item.names[0].name}
                   </Text>
                 </View>
               )}
@@ -176,43 +269,11 @@ export default function HotelInformation({navigation, route}) {
               {t('hotel_description')}
             </Text>
             <Text footnote grayColor style={{marginBottom: 8, marginTop: 3}}>
-              218 Austen Mountain, consectetur adipiscing, do eiusmod tempor
-              incididunt ut labore et dolore
+              {route.params.room.descriptions[0].description}
             </Text>
-            <TouchableOpacity style={{alignItems: 'center'}}>
-              <Text caption1 accentColor>
-                {t('see_details')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={[styles.line, {backgroundColor: colors.border}]} />
-          {/* Hosting Profile */}
-          <ProfileDetail
-            image={userData.image}
-            textFirst={userData.name}
-            textSecond={userData.address}
-            textThird={userData.id}
-            point={userData.point}
-            style={{paddingHorizontal: 20}}
-            onPress={() => navigation.navigate('Profile1')}
-          />
-          <View style={{paddingHorizontal: 20, paddingVertical: 10}}>
-            <ProfilePerformance type="medium" data={userData.performance} />
-          </View>
-
-          <View style={styles.contentTag}>
-            <Tag
-              outline
-              style={{marginRight: 15}}
-              onPress={() => navigation.navigate('Messages')}>
-              {t('contact_host')}
-            </Tag>
-            <Tag primary onPress={() => navigation.navigate('Profile3')}>
-              {t('view_profile')}
-            </Tag>
           </View>
           {/* Todo Things */}
-          <View style={styles.contentTodo}>
+          {/* <View style={styles.contentTodo}>
             <Text headline semibold>
               {t('todo_things')}
             </Text>
@@ -248,7 +309,7 @@ export default function HotelInformation({navigation, route}) {
                 onPress={() => navigation.navigate('PostDetail')}
               />
             )}
-          />
+          /> */}
         </ScrollView>
         {/* Pricing & Booking Process */}
         <View
@@ -258,13 +319,13 @@ export default function HotelInformation({navigation, route}) {
               {t('price')}
             </Text>
             <Text title3 primaryColor semibold>
-              $399.99
+              {route.params.room.prices[0].price} USD
             </Text>
             <Text caption1 semibold style={{marginTop: 5}}>
               {t('avg_night')}
             </Text>
           </View>
-          <Button onPress={() => navigation.navigate('PreviewBooking')}>
+          <Button onPress={() => handleNavigateToBooking()}>
             {t('book_now')}
           </Button>
         </View>

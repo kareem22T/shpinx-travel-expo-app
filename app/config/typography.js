@@ -1,4 +1,8 @@
 import {StyleSheet} from 'react-native';
+import { useState } from 'react';
+import { getI18n } from 'react-i18next';
+
+const languageSelected = getI18n.language;
 
 /**
  * Fontweight setting

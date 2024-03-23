@@ -4,6 +4,7 @@
     "slug": "sphinx-travel",
     "version": "1.0.0",
     "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -48,7 +49,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "216ea940-c243-4fb4-b7d9-6f9fbe5a9be6"
+        "projectId": "ed4b4ca1-c0b5-4ae4-b3a1-16dfc257e90e"
       }
     },
     "owner": "sphinxtravel",

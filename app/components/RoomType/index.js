@@ -4,9 +4,11 @@ import {Image, Text, Icon, Tag} from './../../components';
 import {BaseColor, useTheme} from './../../config';
 import PropTypes from 'prop-types';
 import styles from './styles';
+import { url } from '../../apis/a-MainVariables';
+
 export default function RoomType(props) {
   const {colors} = useTheme();
-  const {style, image, name, available, services, price, onPress} = props;
+  const {style, image, name,description, available, services, price, onPress} = props;
   return (
     <View style={[styles.listContent, style]}>
       <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
@@ -16,26 +18,24 @@ export default function RoomType(props) {
         <Text headline semibold numberOfLines={1}>
           {name}
         </Text>
+        <Text numberOfLines={3}>
+          {description}
+        </Text>
         <View style={styles.listContentService}>
-          {services.map((item, index) => (
-            <Tag
+          {services.slice(0, 4).map((item, index) => (
+            <View
               key={'service' + index}
-              icon={
-                <Icon
-                  name={item.icon}
-                  size={12}
-                  color={colors.accent}
-                  solid
-                  style={{marginRight: 5}}
-                />
-              }
               chip
               style={{
                 marginTop: 5,
                 marginRight: 5,
+                padding: 5,
+                borderWidth: 1,
+                borderRadius: 25,
+                borderColor: colors.primaryLight
               }}>
-              {item.name}
-            </Tag>
+                <Image source={{uri: url + item.icon_path}} style={{width: 25, height: 25, resizeMode: "contain"}} />
+            </View>
           ))}
         </View>
         <Text
@@ -44,15 +44,6 @@ export default function RoomType(props) {
           semibold
           style={{paddingTop: 10, paddingBottom: 5}}>
           {price}
-        </Text>
-        <Text
-          footnote
-          accentColor
-          numberOfLines={1}
-          style={{
-            marginTop: 5,
-          }}>
-          {available}
         </Text>
       </View>
     </View>
